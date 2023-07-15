@@ -16,21 +16,10 @@
 
 using namespace std;
 
-int n;
-
-double p[maxn];
-double ans; 
 
 int main ()
 {
 	fastread
-	
-	cin >> n;
-	
-	for (int i = 1; i <= n; i++)
-	{
-	cin >> i;
-	}
 	
 	return 0;
 }
