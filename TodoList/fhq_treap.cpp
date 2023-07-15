@@ -52,6 +52,8 @@ void split(int now,int val,int &x,int &y){//<=val >val
 	}
 }
 
+// val 1 now 3 l 2 r 4 
+
 int merge(int x,int y){
 	if(!x||!y)return x+y;
 	if(fhq[x].key<fhq[y].key){
