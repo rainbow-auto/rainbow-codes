@@ -17,8 +17,7 @@
 using namespace std;
 
 
-int main ()
-{
+int main () {
 	fastread
 	
 	return 0;
