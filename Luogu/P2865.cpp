@@ -16,80 +16,73 @@
 
 using namespace std;
 
-const int maxn = 200005;
+const int maxn = 1005;
 
-int n, m;
 
-int to[maxn], pre[maxn], last[maxn];
-int w[maxn];
-int cnt;
+struct Matrix {
+	int a[maxn][maxn], n, m;
+	int num[maxn], tot;
+		
+	Matrix() {
+		memset (a, 0, sizeof(a));
+		memset (num, 0, sizeof(num));
+		tot = 0;
+	}
 
-inline void addEdge (int u, int v, int ww) {
-	cnt ++;
-	to[cnt] = v;
-	w[cnt] = ww;
-	pre[cnt] = last[u];
-	last[u] = cnt;
-}
-
-struct Node {
-	int u;
-	int dis;
+	Matrix (int siz) {
+		siz = tot;
+	}
 	
-	friend bool operator < (Node a, Node b) {
-		return a.dis > b.dis;
+	inline void indentity() {
+		for (int i = 1; i <= tot; i++) {
+			a[i][i] = tot;
+		}
+	}
+
+	inline void addEdge(int u, int v, int w) {
+		if (not num[u]) {
+			num[u] = ++tot;
+		}
+		if (not num[v]) {
+			num[v] = ++tot;
+		}
+		
+		a[num[u]][num[v]] = w;
+	}
+	
+	int* operator [] (int i) {
+		return a[i];	
+	}	
+	
+	friend Matrix operator * (Matrix x, Matrix y) {
+		Matrix res;
+		int tot =  x.tot;
+		for (int i = 1; i <= tot; i++) {
+			for (int j = 1; j <= tot; j++) {
+				for (int k = 1; k <= tot; k++) {
+					res[i][j] = min(res[i][j], x[i][k] + y[k][j]);
+				}
+			}
+		}
+		return res;
+	}
+	
+	friend Matrix operator ^ (Matrix a, int x) {
+		Matrix res(a.tot); res.indentity();
+		Matrix base = x;
+
+		while (x) {
+			if (x & 1) {
+				res *= base;
+			}
+			x >>= 1;
+			base *= base;
+		}
 	}
 };
 
-int dis[maxn][2];
-
-int dij () {
-	memset (dis, 0x3f, sizeof (dis));
-	dis[1][0] = 0;
-	
-	priority_queue<Node> q;
-	
-	q.push(Node{1, dis[1][0]});
-		
-	while (not q.empty()) {
-		int u = q.top().u; q.pop();
-		
-		for (int i = last[u]; i; i = pre[i]) {
-			int v = to[i];
-			
-			if (dis[v][0] >= dis[u][0] + w[i]) {
-				dis[v][0] = dis[u][0] + w[i];
-				q.push(Node{v, dis[v][0]});
-			}
-			else if (dis[v][1] > dis[u][0] + w[i]) {
-				dis[v][1] = dis[u][0] + w[i];
-				q.push(Node{v, dis[v][0]});
-			} 
-			
-			if (dis[v][1] > dis[u][1] + w[i]) {
-				dis[v][1] = dis[u][1] + w[i];
-			}
-		}		
-	}
-	
-	return dis[n][1];
-}
-
 int main () {
 	fastread
-	
-	while (cin >> n >> m) {
-		memset (last, 0, sizeof (last));
-		for (int i = 1; i <= m; i++) {
-			int u, v, ww;
-			cin >> u >> v >> ww;
-			addEdge (u, v, ww);
-			addEdge (v, u, ww);
-		}
-		
-		cout << dij () << endl;
-	}
-	
 	
 	return 0;
 }
