@@ -42,19 +42,7 @@ inline void pushdown(int p,int l,int r){
 	t[rs].sum+=ta*(r-mid);
 	t[p].tag=0;
 }
-void add(int p,int l,int r,int L,int R,int v){
-	if(L<=l&&r<=R){
-		t[p].mn+=v;
-		t[p].mx+=v;
-		t[p].sum+=v*(r-l+1);
-		t[p].tag+=v;
-		return; 
-	}
-	pushdown(p,l,r);
-	if(mid>=L)add(ls,l,mid,L,R,v);
-	if(mid<R)add(rs,mid+1,r,L,R,v);
-	pushup(p);
-}
+
 void Sqrt(int p,int l,int r,int L,int R) {
 //	cout<<p<<" "<<l<<" "<<r<<" "<<L<<" "<<R<<'\n';
 /*

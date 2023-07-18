@@ -18,6 +18,9 @@ else:
     elif type == "comp":
         shutil.copy ("temp.cpp", "CompRedo/" + str(id) + ".cpp")
         shutil.copy ("model.cpp", "temp.cpp")
+    elif type == "uoj":
+        shutil.copy ("temp.cpp", "UOJ/" + str(id) + ".cpp")
+        shutil.copy ("model.cpp", "temp.cpp")
     elif type == "todo":
         shutil.copy ("temp.cpp", "TodoList/" + str(id) + ".cpp")
         shutil.copy ("model.cpp", "temp.cpp")
