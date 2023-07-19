@@ -96,7 +96,7 @@ inline int _sqrt (int x) { return sqrt(x); }  // 很巧妙的强制类型转换
 
 inline void range_sqrt (int now, int l, int r, int L, int R) {
 	if (L <= l and r <= R) {
-		if ( _sqrt(tr[now].mn) - _sqrt(tr[now].mx) == tr[now].mn - tr[now].mx) {
+		if ( _sqrt(tr[now].mn) - _sqrt(tr[now].mx) == tr[now].mn - tr[now].mx) { // 开根前的差等于开根后的差
 			int delta = tr[now].mn - _sqrt(tr[now].mn);
 			tr[now].mn -= delta;
 			tr[now].mx -= delta;
