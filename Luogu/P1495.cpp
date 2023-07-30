@@ -11,68 +11,47 @@
 #include <cmath>
 #include <queue>
 
+#define fastread ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
+#define endl "\n"
+
 using namespace std;
 
-namespace Reader{
-    int read ()
-    {
-        char c = getchar (); 
-        int x = 0, flag = 1;
-        while (not isdigit (c)) { if (c == '-') flag = -1; c = getchar(); }
-        while (isdigit (c)) { x = x * 10 + c - '0'; c = getchar(); }
-        return x * flag;
-    }
+#define int unsigned long long
+
+int gcd (int a, int b) {
+	if (not b) { return a; }
+	else { return gcd (b, a % b); }
 }
 
-typedef long long ll;
+inline int lcm (int a, int b) {
+	return a / gcd(a, b) * b;
+}
 
-const int maxn = 30;
+inline bool merge (int &m1, int &a1, int m2, int a2) {
+	if (m1 < m2) { swap(m1, m2); swap(a1, a2); }
+
+	int tot = 0;
+	while (a1 % m2 != a2) {
+		if (++tot > m2 + 1) { return false; }
+		a1 += m1;
+	}
+	m1 = lcm (m1, m2);
+	return true;
+}
+
 int n;
-ll a[maxn];
-ll b[maxn];
 
-ll mul;
+signed main () {
+	fastread
 
-ll exgcd (ll a, ll b, ll& x, ll& y)
-{
-    if (not b)
-    {
-        x = 1, y = 0;
-        return a;
-    }    
-    ll res = exgcd (b, a % b, y, x);
-    y -= x * (a / b);
-    return res;
-}
+	int m = 1, a = 0; 
+	cin >> n;
+	for (int i = 1; i <= n; i++) {
+		int m_now, a_now; cin >> m_now >> a_now;
+		if (not merge (m, a, m_now, a_now)) { cout << "答辩" << endl; return 0; }
+	}
 
-ll crt ()
-{
-    mul = 1;
-    for (int i = 1; i <= n; i++) mul *= a[i];
+	cout << a << endl;
 
-    ll ans = 0;
-    for (int i = 1; i <= n; i++)
-    {
-        ll m = mul / a[i];
-        ll mr = 0, y = 0;
-        exgcd (m, a[i], mr, y);
-        mr = mr < 0 ? mr + a[i] : mr;
-        ans += b[i] * m * mr; 
-    }
-    return ans % mul;
-}
-
-int main ()
-{
-    n = Reader::read();
-
-    for (int i = 1; i <= n; i++)
-    {
-        a[i] = Reader::read();
-        b[i] = Reader::read();
-    }
-
-    cout << crt () << endl;
-
-    return 0;
+	return 0;
 }
