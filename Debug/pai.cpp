@@ -5,15 +5,19 @@
 using namespace std;
 
 inline void make_sound() {
-	Beep(494, 400);
+	Beep(494, 100);
     Sleep(100); 
-    Beep(777, 400);
+    Beep(777, 100);
     Sleep(100); 
-    Beep(845, 400);
+    Beep(845, 100);
 	Sleep(100);
 } 
 
 int main () {
+
+	while (1) {
+		make_sound();
+	} 
 
     int n = 100000000;
 
