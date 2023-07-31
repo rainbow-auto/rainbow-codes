@@ -1,49 +1,62 @@
-//#include<__msvc_all_public_headers.hpp>
+// luogu-judger-enable-o2
 #include<bits/stdc++.h>
+#define N 60010
 using namespace std;
-int dp[3005][3005][15];
-int w[15];
+inline void read(int &x)
+{
+    x=0;
+    static int p;p=1;
+    static char c;c=getchar();
+    while(!isdigit(c)){if(c=='-')p=-1;c=getchar();}
+    while(isdigit(c)) {x=(x<<1)+(x<<3)+(c-48);c=getchar();}
+    x*=p;	
+}
+bool vis[N];
+int prim[N],mu[N],sum[N],cnt,k;
+void get_mu(int n)
+{
+    mu[1]=1;
+    for(int i=2;i<=n;i++)
+    {
+        if(!vis[i]){mu[i]=-1;prim[++cnt]=i;}
+        for(int j=1;j<=cnt&&i*prim[j]<=n;j++)
+        {
+            vis[i*prim[j]]=1;
+            if(i%prim[j]==0)break;
+            else mu[i*prim[j]]=-mu[i];
+        }
+    }
+    for(int i=1;i<=n;i++)sum[i]=sum[i-1]+mu[i];
+}
+long long calc(int a,int b)
+{
+    static int max_rep;
+    static long long ans;
+    max_rep=min(a,b);ans=0;
+    for(int l=1,r;l<=max_rep;l=r+1)
+    {
+        r=min(a/(a/l),b/(b/l));
+        ans+=(1ll*a/(1ll*l*k))*(1ll*b/(1ll*l*k))*(sum[r]-sum[l-1]);
+    }
+    return ans;
+}
 int main()
 {
-    // cin.tie(0);
-	// ios::sync_with_stdio(false);
-	int n, k;
-	memset(dp, -0x3f, sizeof dp);//将所有数据设成无效值
-	dp[0][0][0] = 0;//初始化取0个物品0重量，没有取部分的物品时的值为0
-	cin >> n >> k;
-	for (int i = 1; i <= n; i++)
-	{
-		int p;
-		cin >> p;
-		for (int j = 1; j <= p; j++)
-		{
-			cin >> w[j];//每个物品取不同重量的价值
-		}
-		for (int j = k - 1; j >= 0; j--)
-		{//取第i个物品前当前取的重量
-			dp[i][j][1] = dp[i - 1][j][1];
-			dp[i][j][0] = dp[i - 1][j][0];//先从上一个物品转移过来用来做之后的比较
-			if (j + p <= k)
-			{//当前背包能完整的装下当前物品
-				dp[i][j + p][0] = max(dp[i][j + p][0], dp[i - 1][j][0] + w[p]);
-				dp[i][j + p][1] = max(dp[i][j + p][1], dp[i - 1][j][1] + w[p]);//从i-1,j转移
-			}
-			for (int jj = 1; jj < p && j + jj <= k; jj++)
-			{//当前物品取jj份重量
-				dp[i][j + jj][1] = max(dp[i][j + jj][1], dp[i - 1][j][0] + w[jj]);//从i-1,j,0,转移
-			}			
-		}
+//	freopen("P3455.in","r",stdin);
+//	freopen("P3455.out","w",stdout);
+	int t;
+    read(t);
+    get_mu(50000);
+    
+	for (int i = 1; i <= n; i++) {
+		
 	}
-	int ans = 0;
-	for (int i = 1; i <= n; i++)
-	{
-		for (int j = 0; j <= k; j++)
-		{//枚举i，j找到最大值
-			ans = max(ans, dp[i][j][0]);
-		}
-		ans = max(ans, dp[i][k][1]);//对于每个物品，如果要取部分重量，那此时重量肯定的等于背包总重
-	}
-	cout << ans << endl;
-
-	return 0;
+	
+	while(t--)
+    {
+        static int a,b,c,d;
+        read(a);read(b);read(c);read(d);read(k);
+        printf("%lld\n",calc(b,d)-calc(b,c-1)-calc(a-1,d)+calc(a-1,c-1));
+    }
+    return 0;
 }
