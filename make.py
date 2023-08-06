@@ -21,6 +21,9 @@ else:
     elif type == "uoj":
         shutil.copy ("temp.cpp", "UOJ/" + str(id) + ".cpp")
         shutil.copy ("model.cpp", "temp.cpp")
+    elif type == "loj":
+        shutil.copy ("temp.cpp", "LibreOJ/" + str(id) + ".cpp")
+        shutil.copy ("model.cpp", "temp.cpp")
     elif type == "todo":
         shutil.copy ("temp.cpp", "TodoList/" + str(id) + ".cpp")
         shutil.copy ("model.cpp", "temp.cpp")
