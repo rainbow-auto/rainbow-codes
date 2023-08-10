@@ -20,19 +20,18 @@ const int maxn = 300005;
 
 namespace Palindrome_Automaton {
 	struct Node {
-		int cnt, len;
-		int next[26];
+		int len, cnt;
 		int fail;
-	};
-	Node pam[maxn];
+		int next[26];
+	} pam[maxn];
 
 	int cnt, last;
 
-	inline void init() {
-		cnt = 1, last = 0; // 奇根
+	inline void init () {
+		cnt = 1, last = 0;
 		pam[0].len = 0;
-		pam[1].len = -1; // 加入两个恰好变成1
-		pam[0].fail = 1; // 偶根的fail是奇根 ()
+		pam[1].len = -1;
+		pam[0].fail = 1;
 	}
 
 	#define get_fail(x) while (s[i] != s[i - pam[x].len - 1]) { x = pam[x].fail; }
@@ -40,7 +39,7 @@ namespace Palindrome_Automaton {
 	inline void insert (string s) {
 		for (int i = 0; i < s.size(); i++) {
 			int a = last; get_fail(a);
-			
+
 			if (not pam[a].next[s[i] - 'a']) {
 				int b = pam[a].fail; get_fail(b);
 				
@@ -49,24 +48,25 @@ namespace Palindrome_Automaton {
 				pam[cnt].len = pam[a].len + 2;
 				pam[a].next[s[i] - 'a'] = cnt;
 			}
+
 			last = pam[a].next[s[i] - 'a'];
+
 			pam[last].cnt ++;
 		}
 	}
 
-	inline void solve (string s) {
-		insert(s);
-		
+	inline void work (string s) {
+		insert (s);
 		for (int i = cnt; i >= 1; i--) {
 			pam[pam[i].fail].cnt += pam[i].cnt;
 		}
 
 		long long ans = 0;
 		for (int i = 1; i <= cnt; i++) {
-			ans = max (ans, 1ll * pam[i].len * pam[i].cnt);
+			ans = max(ans, 1ll * pam[i].cnt * pam[i].len);
 		}
 		cout << ans << endl;
-	}	
+	}
 }
 
 int main () {
@@ -74,7 +74,7 @@ int main () {
 	
 	string s; cin >> s;
 	Palindrome_Automaton::init();
-	Palindrome_Automaton::solve(s);
+	Palindrome_Automaton::work(s);
 
 	return 0;
 }
