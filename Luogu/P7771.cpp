@@ -17,52 +17,50 @@
 using namespace std;
 
 const int maxn = 100005;
+
 int n, m;
 
 int hd[maxn];
-int ind[maxn], otd[maxn]; // 入度, 出度
-vector<int> g[maxn];
+int ind[maxn], otd[maxn];
 
+vector<int> g[maxn];
 inline void addEdge (int u, int v) {
 	g[u].push_back(v);
-	otd[u] ++;
 	ind[v] ++;
+	otd[u] ++;
 }
 
 int s = 1;
-
-bool check () {
-	int ot_cnt = 0, in_cnt = 0;
+inline bool check () {
 	bool flag = true;
+	int ind_cnt = 0, otd_cnt = 0;
 	for (int i = 1; i <= n; i++) {
 		if (ind[i] != otd[i]) {
-			flag = false;
-			if (ind[i] - otd[i] == 1) { in_cnt ++; }
-			else if (otd[i] - ind[i] == 1) { ot_cnt ++; s = i; } // 出度比入度多的这个点要作为起点
+			if (otd[i] - ind[i] == 1) { otd_cnt ++; s = i; }
+			else if (ind[i] - otd[i] == 1) { ind_cnt ++; }
 			else { return false; }
-		}			
+		}
 	}
-	if (flag) { return true; } // 欧拉回路
-	if (ot_cnt == 1 and in_cnt == 1) { return true; } // 欧拉路径
+	if (flag) { return true; }
+	if (ind_cnt == 1 and otd_cnt == 1) { return true; }
 	return false;
 }
 
-stack<int> st;
+stack<int> ans;
 void dfs (int now) {
-	// cout << "vis " << now << endl;
 	for (int &i = hd[now]; i < g[now].size(); ) {
 		dfs (g[now][i++]);
 	}
-	st.push(now);
+	ans.push (now);
 }
 
 int main () {
 	fastread
-
+	
 	cin >> n >> m;
 	for (int i = 1; i <= m; i++) {
 		int u, v; cin >> u >> v;
-		addEdge (u, v);
+		addEdge(u, v);
 	}
 
 	if (not check()) { cout << "No" << endl; return 0; }
@@ -70,9 +68,9 @@ int main () {
 	for (int i = 1; i <= n; i++) { sort(g[i].begin(), g[i].end()); }
 
 	memset(hd, 0, sizeof(hd));
-	dfs(s);
+	dfs (s);
 
-	while (not st.empty()) { cout << st.top() << " "; st.pop(); }
+	while (not ans.empty()) { cout << ans.top() << " "; ans.pop(); }
 	cout << endl;
 
 	return 0;
