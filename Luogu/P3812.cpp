@@ -21,7 +21,7 @@ namespace Basis {
 	
 	ll a[64];
 	inline void insert (ll x) {
-		for (int i = 63; i >= 0; i--) {
+		for (unsigned long long i = 63; i >= 0; i--) {
 			if (not (x & (1ll << i))) { continue; }
 			if (a[i]) { x ^= a[i]; }
 			else { a[i] = x; return; }
