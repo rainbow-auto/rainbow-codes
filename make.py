@@ -2,7 +2,16 @@ import sys
 import os
 import shutil
 
-def git(problemId):
+problemTypeIndex = {
+    "acwing": "ACWing/",
+    "luogu": "Luogu/",
+    "comp": "CompRedo/",
+    "uoj": "UOJ/",
+    "loj": "LibreOJ/",
+    "todo": "TodoList/"
+}
+
+def gitCommit(problemId):
     os.system("git add .")
     os.system("git commit -m " + str(problemId))
     os.system("git push RainbowCodes")
@@ -21,31 +30,43 @@ def move(prefix, problemId):
     if check(filePath):
         shutil.copy("temp.cpp", filePath)
         shutil.copy("model.cpp", "temp.cpp")
-        git(problemId)
+        gitCommit(problemId)
 
 def problemCommit(problemType, problemId):
-    index = {
-        "acwing": "ACWing/",
-        "luogu": "Luogu/",
-        "comp": "CompRedo/",
-        "uoj": "UOJ/",
-        "loj": "LibreOJ/",
-        "todo": "TodoList/"
-    }
-
-    if problemType in index.keys():
-        move(index[problemType], problemId)
-    else:
-        print("Error: We don't have this dictionary!")
+    move(problemTypeIndex[problemType], problemId)
 
 def problemClear():
     shutil.copy ("model.cpp", "temp.cpp")
 
 if __name__ == "__main__":
-    if len(sys.argv) == 2:
-        if sys.argv[1] == "clear":
-            problemClear()
-    else:
-        problemType = sys.argv[1]
-        problemId = sys.argv[2]
-        problemCommit(problemType, problemId)
+    print("Welcome to use Problem Commit Tool")
+
+    while True:
+        print(">>>", end = " ")
+
+        inputArgs = input().split(" ")
+
+        if len(inputArgs) == 1:
+            if inputArgs[0] == "exit":
+                break
+            elif inputArgs[0] == "clear":
+                problemClear()
+        elif len(inputArgs) == 2:
+            if inputArgs[0] in problemTypeIndex.keys(): 
+                problemType = inputArgs[0]
+                problemId = inputArgs[1]
+                problemCommit(problemType, problemId)
+            else:
+                print("Error: Problem Type not found")
+        else:
+            if inputArgs[0] == "clac":
+                expression = ""
+                for i in inputArgs[1:]:
+                    expression += str(i)
+
+                result = eval(expression)
+            
+                print(result)
+            else:
+                print("Error: command not found")
+                print("Please check that the input is correct!")
