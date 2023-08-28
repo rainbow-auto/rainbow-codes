@@ -59,7 +59,7 @@ if __name__ == "__main__":
             else:
                 print("Error: Problem Type not found")
         else:
-            if inputArgs[0] == "clac":
+            if inputArgs[0] == "calc":
                 expression = ""
                 for i in inputArgs[1:]:
                     expression += str(i)
