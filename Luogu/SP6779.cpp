@@ -16,16 +16,18 @@
 
 using namespace std;
 
-const int maxn = 2e5 + 5;
+const int maxn = 200005;
 
-int n, m;
+int n, q;
+
+int val[maxn];
 
 struct Edge {
 	int u, v;
 	int pre;
 } es[maxn << 1];
 
-int last[maxn], cnt, val[maxn];
+int last[maxn], cnt;
 
 inline void addEdge (int u, int v) {
 	es[++cnt] = Edge { u, v, last[u] };
@@ -33,15 +35,17 @@ inline void addEdge (int u, int v) {
 }
 
 int fa[maxn], siz[maxn], son[maxn], dep[maxn];
-int top[maxn], dfn[maxn], dpos, rnk[maxn];
+int top[maxn], rnk[maxn], dfn[maxn], dpos;
 
-void treeBuild (int now, int f) { // dfs1
+void treeBuild (int now, int f) {
+	fa[now] = f;
+	son[now] = 0;
 	siz[now] = 1;
 	dep[now] = dep[f] + 1;
-	fa[now] = f;
 
 	for (int i = last[now]; i; i = es[i].pre) {
 		int t = es[i].v;
+
 		if (t == f) { continue; }
 
 		treeBuild (t, now);
@@ -53,7 +57,7 @@ void treeBuild (int now, int f) { // dfs1
 	}
 }
 
-void treeDecomp (int now, int topnow) { // dfs2
+void treeDecomp (int now, int topnow) {
 	top[now] = topnow;
 	dfn[now] = ++dpos;
 	rnk[dpos] = now;
@@ -65,158 +69,137 @@ void treeDecomp (int now, int topnow) { // dfs2
 	for (int i = last[now]; i; i = es[i].pre) {
 		int t = es[i].v;
 
-		if (t == son[now]) { continue; }
 		if (t == fa[now]) { continue; }
+		if (t == son[now]) { continue; }
 
 		treeDecomp (t, t);
 	}
 }
 
-namespace SegmentTree {
-	
-	struct Node {
-		int sum;
-		int tag; bool cov;
-		int maxSum, maxL, maxR;
+struct Node {
+	int sum;
+	int tag; bool cov;
 
-		Node () { sum = maxSum = maxL = maxR = 0; tag = 0; cov = false; }
+	int maxL, maxR, maxSum;
 
-	} tr[maxn << 4];
+	Node () { sum = maxL = maxR = maxSum = 0; tag = 0; cov = false; }
 
-	inline Node merge (Node a, Node b) {
-		Node res;
+} tr[maxn << 3];
 
-		res.sum = a.sum + b.sum;
+inline Node merge (Node a, Node b) {
+	Node res;
 
-		res.maxL = max (a.maxL, a.sum + b.maxL);
-		res.maxR = max (b.maxR, b.sum + a.maxR);
+	res.sum = a.sum + b.sum;
 
-		res.maxSum = max ( max (a.maxSum, b.maxSum) , a.maxR + b.maxL );
+	res.maxL = max (a.maxL, a.sum + b.maxL);
+	res.maxR = max (b.maxR, b.sum + a.maxR);
 
-		res.cov = false; res.tag = 0;
+	res.maxSum = max ( max (a.maxSum, b.maxSum), a.maxR + b.maxL );
 
-		return res;
-	}
-
-	void build (int now, int l, int r) {
-		if (l == r) {
-			tr[now].sum = tr[now].maxL = tr[now].maxR = tr[now].maxSum = ::val[::rnk[l]];
-			tr[now].tag = 0; tr[now].cov = false;
-
-			return;
-		}
-
-		int mid = (l + r) >> 1;
-		build (now << 1, l, mid);
-		build (now << 1 | 1, mid + 1, r);
-
-		tr[now] = merge (tr[now << 1], tr[now << 1 | 1]);
-	}
-
-	inline void update (int now, int l, int r, int val) {
-		tr[now].sum = (r - l + 1) * val;
-		tr[now].maxL = tr[now].maxR = tr[now].maxSum = max (0, tr[now].sum);
-		tr[now].tag = val; tr[now].cov = true;
-	}
-	
-	inline void pushDown (int now, int l, int r) {
-		if (not tr[now].cov) { return; }
-
-		int mid = (l + r) >> 1;
-		update (now << 1, l, mid, tr[now].tag);
-		update (now << 1 | 1, mid + 1, r, tr[now].tag);
-		tr[now].tag = 0; tr[now].cov = false;
-	}
-
-
-	void modify (int now, int l, int r, int L, int R, int val) {
-		if (L <= l and r <= R) {
-			update (now, l, r, val);
-			return;
-		}
-
-		pushDown (now, l, r);
-
-		int mid = (l + r) >> 1;
-
-		if (L <= mid) { modify (now << 1, l, mid, L, R, val); }
-		if (R > mid) { modify (now << 1 | 1, mid + 1, r, L, R, val); }
-
-		tr[now] = merge (tr[now << 1], tr[now << 1 | 1]);
-	}
-
-	Node query (int now, int l, int r, int L, int R) {
-		if (L <= l and r <= R) { return tr[now]; }
-
-		pushDown (now, l, r);
-
-		int mid = (l + r) >> 1;
-		
-		Node lNode, rNode;
-		
-		if (L <= mid) { lNode = query (now << 1, l, mid, L, R); }
-		if (R > mid) { rNode = query (now << 1 | 1, mid + 1, r, L, R); }
-
-		return merge ( lNode, rNode );
-	} 
+	return res;
 }
 
-inline void chainModify (int u, int v, int c) {
-	while (top[u] != top[v]) {
-		if (dep[top[u]] > dep[top[v]]) {
-			SegmentTree::modify (1, 1, n, dfn[top[u]], dfn[u], c);
-			u = fa[top[u]];
-		} else {
-			SegmentTree::modify (1, 1, n, dfn[top[v]], dfn[v], c);
-			v = fa[top[v]];
-		}
-	}
-
-	if (dep[u] > dep[v]) { swap (u, v); }
-	SegmentTree::modify (1, 1, n, dfn[u], dfn[v], c);
+inline void update (int now, int l, int r, int k) {
+	tr[now].sum = (r - l + 1) * k;
+	tr[now].maxL = tr[now].maxR = tr[now].maxSum = max (0, tr[now].sum);
+	tr[now].tag = k; tr[now].cov = true;
 }
 
-inline SegmentTree::Node chainQuery (int u, int v) {
-	SegmentTree::Node L, R;
+inline void pushDown (int now, int l, int r) {
+	if (not tr[now].cov) { return; }
 
-	while (top[u] != top[v]) {
-		if (dep[top[u]] < dep[top[v]]) {
-			R = SegmentTree::merge (SegmentTree::query (1, 1, n, dfn[top[v]], dfn[v]), R);
-			v = fa[top[v]];
+	int mid = (l + r) >> 1;
+	update (now << 1, l, mid, tr[now].tag);
+	update (now << 1 | 1, mid + 1, r, tr[now].tag);
+
+	tr[now].tag = 0; tr[now].cov = false;
+}
+
+void build (int now, int l, int r) {
+	if (l == r) {
+		tr[now].sum = tr[now].maxL = tr[now].maxR = tr[now].maxSum = val[rnk[l]];
+		return;
+	}
+
+	int mid = (l + r) >> 1;
+
+	build (now << 1, l, mid);
+	build (now << 1 | 1, mid + 1, r);
+
+	tr[now] = merge (tr[now << 1], tr[now << 1 | 1]);
+}
+
+void modify (int now, int l, int r, int L, int R, int k) {
+	if (L <= l and r <= R) {
+		update (now, l, r, k);
+		return;
+	}
+
+	pushDown (now, l, r);
+
+	int mid = (l + r) >> 1;
+
+	if (L <= mid) { modify (now << 1, l, mid, L, R, k); }
+	if (R > mid) { modify (now << 1 | 1, mid + 1, r, L, R, k); }
+
+	tr[now] = merge (tr[now << 1], tr[now << 1 | 1]);
+}
+
+Node query (int now, int l, int r, int L, int R) {
+	if (L <= l and r <= R) {
+		return tr[now];	
+	}
+
+	pushDown (now, l, r);
+
+	int mid = (l + r) >> 1;
+	
+	Node lNode, rNode;
+	if (L <= mid) { lNode = query (now << 1, l, mid, L, R); }
+	if (R > mid) { rNode = query (now << 1 | 1, mid + 1, r, L, R); }
+
+	return merge (lNode, rNode);
+}
+
+void chainModify (int a, int b, int c) {
+	while (top[a] != top[b]) {
+		if (dep[top[a]] > dep[top[b]]) {
+			modify (1, 1, n, dfn[top[a]], dfn[a], c);
+			a = fa[top[a]];
 		} else {
-			L = SegmentTree::merge (SegmentTree::query (1, 1, n, dfn[top[u]], dfn[u]), L);
-			u = fa[top[u]];
+			modify (1, 1, n, dfn[top[b]], dfn[b], c);
+			b = fa[top[b]];
 		}
 	}
 
-	if (dep[u] > dep[v]) {
-		L = SegmentTree::merge (SegmentTree::query (1, 1, n, dfn[v], dfn[u]), L);
-	} else {
-		R = SegmentTree::merge (SegmentTree::query (1, 1, n, dfn[u], dfn[v]), R);
+	if (dep[a] > dep[b]) { swap (a, b); }
+	modify (1, 1, n, dfn[a], dfn[b], c);
+}
+
+Node chainQuery (int a, int b) {
+	Node L, R;
+
+	while (top[a] != top[b]) {
+		if (dep[top[a]] > dep[top[b]]) {
+			L = merge ( query (1, 1, n, dfn[top[a]], dfn[a]), L );
+			a = fa[top[a]];
+		} else {
+			R = merge ( query (1, 1, n, dfn[top[b]], dfn[b]), R );
+			b = fa[top[b]];	
+		}
 	}
 
+	if (dep[a] > dep[b]) { L = merge ( query (1, 1, n, dfn[b], dfn[a]), L ); }
+	else { R = merge ( query (1, 1, n, dfn[a], dfn[b]), R ); }
+	
 	swap (L.maxL, L.maxR);
-	return SegmentTree::merge (L, R);
-}
 
-inline void clear () {
-	memset (fa, 0, sizeof (fa));
-	memset (dep, 0, sizeof (dep));
-	memset (siz, 0, sizeof (siz));
-	memset (son, 0, sizeof (son));
-	memset (dfn, 0, sizeof (dfn)); dpos = 0;
-	memset (rnk, 0, sizeof (rnk));
-	memset (top, 0, sizeof (top));
-
-	cnt = 0;
-	memset (last, 0, sizeof (last));
+	return merge (L, R);
 }
 
 int main () {
 	fastread
-
-	clear ();
-
+	
 	cin >> n;
 
 	for (int i = 1; i <= n; i++) {
@@ -228,15 +211,16 @@ int main () {
 		addEdge (u, v);
 		addEdge (v, u);
 	}
-	
+
 	treeBuild (1, 0);
 	treeDecomp (1, 1);
-	SegmentTree::build (1, 1, n);
+	build (1, 1, n);
 
-	cin >> m;
+	cin >> q;
 
-	while (m--) {
-		int op; cin >> op;
+	while (q --) {
+		int op;
+		cin >> op;
 
 		if (op == 1) {
 			int a, b; cin >> a >> b;
