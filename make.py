@@ -8,6 +8,7 @@ problemTypeIndex = {
     "comp": "CompRedo/",
     "uoj": "UOJ/",
     "loj": "LibreOJ/",
+    "bzoj": "BZOJ/",
     "todo": "TodoList/"
 }
 
@@ -20,7 +21,7 @@ def check(path):
     if os.path.exists(path):
         print("Warning: Path already existed! Add anyway? [y/N]")
         arg = input()
-        if arg == 'N' or arg == 'n':
+        if arg == 'N' or arg == 'n' or arg == '':
             return False
     
     return True
