@@ -1,1 +1,0 @@
-{"name":"Local: std","url":"d:\\00 Noip\\000 Code\\std.cpp","tests":[{"id":1696351843928,"input":"2 1\n1 2 2\n2","output":"AYE"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\00 Noip\\000 Code\\std.cpp","group":"local","local":true}
