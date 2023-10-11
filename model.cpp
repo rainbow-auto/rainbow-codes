@@ -14,7 +14,8 @@
 #define fastread ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 #define endl "\n"
 
-using namespace std;
+using std::cin;
+using std::cout;
 
 
 int main () {
