@@ -13,7 +13,7 @@
 
 using i64 = long long;
 
-#define fastread std::ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
+#define fastread std::ios::sync_with_stdio(false); std::cin.tie(0);
 
 int main () {
 	fastread
