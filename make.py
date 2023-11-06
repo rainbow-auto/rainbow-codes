@@ -73,10 +73,11 @@ if __name__ == "__main__":
         
         command = inputArgs[0]
 
+        if command == "exit": 
+            exit ()
+
         if status == "Normal":
-            if command == "exit": # exit
-                exit()
-            elif command == "clear": # clear the problem
+            if command == "clear": # clear the problem
                 problemCommitter.clear()
             elif command in problemTypeIndex.keys(): # commit this problem
                 problemCommitter.commit(inputArgs[0], inputArgs[1])
