@@ -1,0 +1,1 @@
+{"name":"Local: D","url":"d:\\00 Noip\\00 Comp\\23-10-28 ABC326\\D.cpp","tests":[{"id":1698500272349,"input":"5\nABCBC\nACAAB\n","output":"Yes\nAC..B\n.BA.C\nC.BA.\nBA.C.\n..CBA\n"},{"id":1698500277681,"input":"3\nAAA\nBBB","output":"No"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\00 Noip\\00 Comp\\23-10-28 ABC326\\D.cpp","group":"local","local":true}

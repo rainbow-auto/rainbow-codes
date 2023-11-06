@@ -1,0 +1,1 @@
+{"name":"Local: A","url":"d:\\00 Noip\\00 Comp\\23-08-15 ZR 收官之战\\A.cpp","tests":[{"id":1692065513721,"input":"4 10\n3 2\n1 3\n1 3\n2 4","output":"-1 -1 7 5 6 9 -1 -1 -1 -1"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\00 Noip\\00 Comp\\23-08-15 ZR 收官之战\\A.cpp","group":"local","local":true}

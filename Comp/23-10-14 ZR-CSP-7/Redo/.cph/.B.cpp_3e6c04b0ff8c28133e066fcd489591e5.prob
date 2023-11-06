@@ -1,0 +1,1 @@
+{"name":"Local: B","url":"d:\\00 Noip\\00 Comp\\23-10-14 ZR-CSP-7\\Redo\\B.cpp","tests":[{"id":1697335536424,"input":"6\n110100","output":"2"},{"id":1697335573466,"input":"15\n111010101010000","output":"4"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\00 Noip\\00 Comp\\23-10-14 ZR-CSP-7\\Redo\\B.cpp","group":"local","local":true}

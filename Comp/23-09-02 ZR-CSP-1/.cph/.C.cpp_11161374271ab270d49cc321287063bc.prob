@@ -1,0 +1,1 @@
+{"name":"Local: C","url":"d:\\00 Noip\\00 Comp\\23-09-02 ZR-CSP-1\\C.cpp","tests":[{"id":1693662629568,"input":"5 3\n1 4 5","output":"128"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\00 Noip\\00 Comp\\23-09-02 ZR-CSP-1\\C.cpp","group":"local","local":true}

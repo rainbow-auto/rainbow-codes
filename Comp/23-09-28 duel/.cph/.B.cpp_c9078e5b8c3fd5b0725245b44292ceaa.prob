@@ -1,0 +1,1 @@
+{"name":"Local: B","url":"d:\\00 Noip\\00 Comp\\23-09-28 duel\\B.cpp","tests":[{"id":1695898619737,"input":"5\n2 2 1\nBB\n1 1 1\nAB\n3 2 8\nAABBBBAABB\n5 3 4\nBBBBB\n2 1 1\nABABAB","output":"2\n1\n3\n1\n6"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\00 Noip\\00 Comp\\23-09-28 duel\\B.cpp","group":"local","local":true}

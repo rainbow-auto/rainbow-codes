@@ -1,0 +1,1 @@
+{"name":"Local: A","url":"d:\\00 Noip\\00 Comp\\23-10-01 QBXT-Day3\\A.cpp","tests":[{"id":1696123498148,"input":"8\n0 0 1 2 2 2 3 4","output":"5"},{"id":1696124358985,"input":"5\n0 0 1 2 3","output":"5"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\00 Noip\\00 Comp\\23-10-01 QBXT-Day3\\A.cpp","group":"local","local":true}

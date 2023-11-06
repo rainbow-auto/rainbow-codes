@@ -1,0 +1,1 @@
+{"name":"Local: C","url":"d:\\00 Noip\\00 Comp\\23-08-13 ZR\\C.cpp","tests":[{"id":1691913956513,"input":"3 532250646","output":"0"},{"id":1691914209175,"input":"85 734396381","output":"511710539"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\00 Noip\\00 Comp\\23-08-13 ZR\\C.cpp","group":"local","local":true}
