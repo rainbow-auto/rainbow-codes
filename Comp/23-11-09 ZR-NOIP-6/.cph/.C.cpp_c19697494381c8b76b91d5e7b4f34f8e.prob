@@ -1,0 +1,1 @@
+{"name":"Local: C","url":"d:\\00 Noip\\000 Code\\Comp\\23-11-09 ZR-NOIP-6\\C.cpp","tests":[{"id":1699495676839,"input":"5\n1 2 1 2 \n5\n2 1\n2 2\n3 1\n1 3\n1 4","output":"3\n1\n6\n6\n1"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\00 Noip\\000 Code\\Comp\\23-11-09 ZR-NOIP-6\\C.cpp","group":"local","local":true}
