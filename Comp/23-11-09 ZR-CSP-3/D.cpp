@@ -276,6 +276,12 @@ namespace Subtask1 {
     }
 }
 
+/*
+    自己想出来的神秘bdfs
+    但是存在一些更神秘的问题
+    (似乎是某些地方id和bfn没有处理好)
+*/
+
 namespace Subtask2 {
 
     // 纵剖
@@ -358,7 +364,7 @@ namespace Subtask2 {
     }
 
     inline int getRightSon (int now, int u) {
-        int l = now;
+        int l = bfn[now];
         int r = dep_r[dep[now]];
 
         int res = 0;
@@ -427,7 +433,7 @@ namespace Subtask2 {
     Tree <maxn, i64> tr;
 
     void addStore (i64 u, i64 w, i64 p) {
-        tr.modify (bfn[u], w);
+        tr.modify (1, 1, n, bfn[u], bfn[u], w);
         
         i64 delta = w / p;
 
@@ -435,6 +441,8 @@ namespace Subtask2 {
         int son_now = left_son[u];
         while (delta) {
             int right_son = getRightSon (son_now, u);
+
+            tr.modify (1, 1, n, bfn[u], bfnpu)
 
             delta /= p;
             fa_now = fa[fa_now];
