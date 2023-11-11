@@ -1,6 +1,7 @@
 #include <iostream>
 #include <map>
 #include <limits>
+#include <queue>
 
 using i64 = long long;
 
@@ -274,6 +275,179 @@ namespace Subtask1 {
         }
     }
 }
+
+namespace Subtask2 {
+
+    // 纵剖
+    int siz[maxn], son[maxn], fa[maxn], dep[maxn];
+    void treeBuild (int now) {
+        siz[now] = 1;
+        for (int i = last[now]; i; i = es[i].pre) {
+            int t = es[i].v;
+            if (t == fa[now]) { continue; }
+
+            fa[t] = now;
+            dep[t] = dep[now] + 1;
+            treeBuild (t);
+            siz[now] += siz[t];
+            if (siz[t] > siz[son[now]]) { son[now] = t; }
+        }
+    }
+
+    int top[maxn], dfn[maxn], dpos, bottom[maxn];
+    void treeDecomp (int now, int topnow) {
+        dfn[now] = ++dpos;
+        top[now] = topnow;
+        bottom[now] = dfn[now];
+
+        if (not son[now]) { return; }
+
+        treeDecomp (son[now], topnow);
+        bottom[now] = std::max (bottom[now], bottom[son[now]]);
+
+        for (int i = last[now]; i; i = es[i].pre) {
+            int t = es[i].v;
+            if (t == fa[now]) { continue; }
+            if (t == son[now]) { continue; }
+
+            treeDecomp (t, t);
+            bottom[now] = std::max (bottom[now], bottom[t]);
+        }
+    }
+
+    inline void init () {
+        dep[1] = 1;
+        treeBuild (1);
+        treeDecomp (1, 1);
+    }
+
+    bool inSubtree (int x, int u) {
+        return dfn[x] >= dfn[u] and dfn[x] <= bottom[u];
+    }
+
+    int left_son[maxn];
+    int bfn[maxn], bpos;
+    int dep_r[maxn];
+
+    struct BFSNode {
+        int now;
+        int dep;
+    };
+
+    void bfs () {
+        std::queue<BFSNode> q;
+        q.push (BFSNode { 1, 1 });
+        
+        while (not q.empty ()) {
+            int now = q.front ().id;
+            int now_dep = q.front ().dep;
+            q.pop ();
+
+            bfn[now] = ++bpos;
+            step_r[step_now] = bfn[now];
+
+            left_son[now] = es[last[now]].v;
+
+            for (int i = last[now]; i; i = es[i].pre) {
+                int t = es[i].v;
+                if (t == fa[now]) { continue; }
+
+                q.push (BFSNode { t, now_dep + 1 });
+            }
+        }
+    }
+
+    inline int getRightSon (int now, int u) {
+        int l = now;
+        int r = dep_r[dep[now]];
+
+        int res = 0;
+
+        while (l <= r) {
+            int mid = (l + r) >> 1;
+            if (inSubtree (mid, u)) { l = mid + 1; res = mid; }
+            else { r = mid - 1; }
+        }
+
+        return res;
+    }
+
+    template<int size, typename val_t>
+    struct SegmentTree {
+        struct Node {
+            val_t sum;
+            val_t tag;
+            bool cov;
+        } tr[size << 3];
+
+        inline void pushUp (int now) { tr[now].sum = tr[now << 1].sum + tr[now << 1 | 1].sum; }
+
+        inline void update (int now, int l, int r, val_t val) {
+            tr[now].sum += val * (r - l + 1);
+            tr[now].cov = true;
+            tr[now].tag = val;
+        }
+
+        inline void pushDown (int now, int l, int r) {
+            if (not tr[now].cov) { return; }
+            int mid = (l + r) >> 1;
+            pushDown (now << 1, l, mid, tr[now].tag);   
+            pushDown (now << 1 | 1, mid + 1, r, tr[now].tag);
+            tr[now].cov = false;
+            tr[now].tag = 0;
+        }
+
+        void modify (int now, int l, int r, int L, int R, val_t val) {
+            if (L <= l and r <= R) { update (now, l, r, val); }
+
+            pushDown (now, l, r);
+
+            int mid = (l + r) >> 1;
+            if (L <= mid) { modify (now << 1, l, mid, L, R, val); }
+            if (R > mid) { modify (now << 1 | 1, mid + 1, r, L, R, val); }
+            
+            pushUp (now);
+        }
+
+        val_t query (int now, int l, int r, int L, int R) {
+            if (L <= l and r <= R) { return tr[now].sum; }
+            
+            pushDown (now, l, r);
+            
+            val_t res = 0;
+
+            int mid = (l + r) >> 1;
+            if (L <= mid) { res += query (now << 1, l, mid, L, R); }
+            if (R > mid) { res += query (now << 1 | 1, mid + 1, r, L, R); }
+
+            return res;
+        }
+    };
+
+    Tree <maxn, i64> tr;
+
+    void addStore (i64 u, i64 w, i64 p) {
+        tr.modify (bfn[u], w);
+        
+        i64 delta = w / p;
+
+        int fa_now = fa[u];
+        int son_now = left_son[u];
+        while (delta) {
+            int right_son = getRightSon (son_now, u);
+
+            delta /= p;
+            fa_now = fa[fa_now];
+            son_now = left_son[son_now];
+        }
+    }   
+
+    inline void solve () {
+        
+    }
+
+}
+
 
 int main () {
 
