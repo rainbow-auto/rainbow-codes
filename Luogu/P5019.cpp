@@ -27,7 +27,7 @@ int main () {
 
 	for (int i = 1; i <= n; i++) { std::cin >> a[i]; }
 
-	int ans = 0;
+	int ans = a[1];
 
 	for (int i = 2; i <= n; i++) {
 		if (a[i] - a[i - 1] > 0) { ans += a[i] - a[i - 1]; }
