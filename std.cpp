@@ -1,114 +1,56 @@
 #include<bits/stdc++.h>
-//#define int long long
-#define ll long long
-#define next nxt
-#define re register
-#define il inline
-const int N = 1e5 + 5;
+#define N 100005
+#define M N*33 
+#define mid ((l+r)>>1)
+#define inf 100100005
 using namespace std;
-int max(int x,int y){return x > y ? x : y;}
-int min(int x,int y){return x < y ? x : y;}
 
-int n,m,l,r;
-int root,idx;
-struct node{
-	int l,r;
-	int val,rnd;
-	int size;
-	bool tag;
-}tree[N];
-
-il int read()
-{
-	int f=0,s=0;
-	char ch=getchar();
-	for(;!isdigit(ch);ch=getchar()) f |= (ch=='-');
-	for(; isdigit(ch);ch=getchar()) s = (s<<1) + (s<<3) + (ch^48);
-	return f ? -s : s;
+inline void rd(int &X){
+    X=0;int w=0;char ch=0;
+    while(!isdigit(ch))w|=ch=='-',ch=getchar();
+    while( isdigit(ch))X=(X<<3)+(X<<1)+(ch^48),ch=getchar();
+    X=w?-X:X;
 }
 
-#define lc tree[now].l
-#define rc tree[now].r
+int L,R;
+map<int,int> id,id2;
+int n,m,rt,cnt,ans;
+int sum[M],ls[M],rs[M];
 
-il int update(int val)
-{
-	tree[++idx] = {0,0,val,rand(),1,0};
-	return idx;
+void ins(int &p,int x,int l=-inf,int r=inf){
+	if(!p) p=++cnt;sum[p]++;if(l==r) return ;
+	x<=mid ? ins(ls[p],x,l,mid) : ins(rs[p],x,mid+1,r);
 }
-
-inline void push_up(int now) {
-    tree[now].size = tree[lc].size + tree[rc].size + 1; 
+int ask(int p,int x,int l=-inf,int r=inf){
+	if(!sum[p] or l==r) return 0;
+	return x<=mid ? ask(ls[p],x,l,mid) : ask(rs[p],x,mid+1,r)+sum[ls[p]];
 }
-
-il void push_down(int now)
-{
-	if(tree[now].tag) {
-        swap(tree[now].l,tree[now].r);
-        tree[lc].tag ^= 1;
-        tree[rc].tag ^= 1;
-        tree[now].tag = 0;
-    }
+int find(int p,int k,int l=-inf,int r=inf){
+	if(l==r) return l;int num=max(0,min(R,mid)-max(L,l)+1-sum[ls[p]]);
+	return num>=k ? find(ls[p],k,l,mid) : find(rs[p],k-num,mid+1,r);
 }
-
-il void Split(int now,int k,int &x,int &y)//取前k个放在x，后面的放在y
-{
-	if(!now) { x = y = 0; return ; }
-    push_down(now);
-    if(k <= tree[lc].size)//第k个在右子树
-	{
-		y = now;
-		Split(lc,k,x,lc);
-		push_up(y);
+inline void work1(int x){
+	int now=(id.find(x)==id.end() ? x : id[x]);
+	ans=now-L+1-ask(rt,now); ins(rt,now); id[x]=--L;id2[L]=x;	
+}
+inline void work2(int x){
+	int now=(id.find(x)==id.end() ? x : id[x]);
+	ans=now-L+1-ask(rt,now); ins(rt,now); id[x]=++R;id2[R]=x;
+}
+inline void change(int x,int y){
+	int now=(id.find(x)==id.end() ? x : id[x]);
+	ans=now-L+1-ask(rt,now); id[y]=now; id2[now]=y;
+}
+inline void ask(int x){
+	ans=find(rt,x);ans=(id2.find(ans)==id2.end() ? ans : id2[ans]);
+}
+signed main(){
+	rd(n);rd(m);L=1,R=n;
+	while(m--){
+		int pd,x,y;rd(pd);rd(x);
+		if(pd==1) rd(y),change(x-ans,y-ans),printf("%d\n",ans);
+		if(pd==2) work1(x-ans),printf("%d\n",ans);
+		if(pd==3) work2(x-ans),printf("%d\n",ans);
+		if(pd==4) ask(x-ans),printf("%d\n",ans);
 	}
-	else
-	{
-		x = now;
-		Split(rc,k-tree[lc].size-1,rc,y);//类似于Get_Val函数的操作
-		push_up(x);
-	}
-}
-
-int Merge(int x,int y)
-{
-	if(!x || !y) { 
-        return x | y;
-    } if(tree[x].rnd < tree[y].rnd) {
-		push_down(x);
-		tree[x].r = Merge(tree[x].r,y);
-		push_up(x);
-		return x;
-	} else {
-		push_down(y);
-		tree[y].l = Merge(x,tree[y].l);
-		push_up(y);
-		return y;
-	}
-}
-
-void Print(int now)
-{
-	if(!now) { return; }
-
-	push_down(now);
-	Print(lc);
-	cout << tree[now].val << " ";
-	Print(rc);
-}
-
-signed main()
-{
-	srand(time(NULL));
-	n = read() , m = read();
-	for(re int i=1;i<=n;i++) root = Merge(root,update(i));
-	for(re int i=1;i<=m;i++)
-	{
-		l = read() , r = read();
-		int x,y,z;
-		Split(root,r,x,z);
-		Split(x,l-1,x,y);
-		tree[y].tag ^= 1;
-		root = Merge(Merge(x,y),z);
-	}
-	Print(root);
-	return 0;
 }
