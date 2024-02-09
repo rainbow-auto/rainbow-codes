@@ -1,153 +1,117 @@
-#include <iostream>
-#include <algorithm>
+// luogu-judger-enable-o2
 #include <string>
-#include <vector>
-#include <list>
-#include <stack>
-#include <map>
-#include <set>
-#include <cstdio>
-#include <cstring>
-#include <cmath>
-#include <queue>
+#include <iostream>
 
-#include <random>
-#include <chrono>
+const int MAXN = 205;
+const int MAXM = 1e5 + 5;
+const int MAXQ = 1e4 + 5;
 
-using i64 = long long;
+using std::cin;
+using std::cout;
+using std::string;
 
-#define fastread std::ios::sync_with_stdio(false); std::cin.tie(0);
-
-const int maxn = 2000005;
-
-struct Node {
-	int ls, rs;
-	int val;
-	int siz;
-	unsigned long long key;
-} tr[maxn];
-
-int tot, root;
-
-std::mt19937 rnd (std::chrono::steady_clock::now().time_since_epoch().count());
-
-inline int newNode (int val) {
-	tr[++tot] = Node { 0, 0, val, 1, rnd () };
-	return tot;
+int Rand() {
+   static int seed = 39444;
+   return seed = (((seed ^ 810872ll) + 1433223ll) * 19260817ll) % 2147483647;
 }
 
-inline void pushUp (int now) {
-	tr[now].siz = tr[tr[now].ls].siz + tr[tr[now].rs].siz + 1;
+struct Node{
+   int key, siz;
+   string name;
+   Node *child[2];
+   Node(string name):name(name), key(Rand()), siz(1) {
+       child[0] = child[1] = NULL;
+   }
+   Node():key(Rand()), siz(1) {
+       child[0] = child[1] = NULL;
+   }
+};
+
+Node *root = NULL;
+
+//Node book[MAXN];
+
+int n, m, q;
+
+void Update(Node *now) {
+   now->siz = 1;
+   now->siz += now->child[0] ? now->child[0]->siz : 0;
+   now->siz += now->child[1] ? now->child[1]->siz : 0;
 }
 
-void split (int now, int val, int& x, int& y) {
-	if (not now) { x = 0; y = 0; }
-
-	if (tr[now].val <= val) {
-		x = now; split (tr[now].rs, val, tr[now].rs, y); pushUp (now);
-	} else {
-		y = now; split (tr[now].ls, val, x, tr[now].ls); pushUp (now);
-	}
+void Split(Node *now, int k, Node *&t1, Node *&t2) {
+   if (!now) {
+       t1 = t2 = NULL; return;
+   } 
+   if (!k) {
+       t1 = NULL; t2 = now; return;
+   }
+   if (k >= now->size) {
+       t1 = now; t2 = NULL; return;
+   }
+   int ls = now->child[0] ? now->child[0]->size : 0;
+   if (ls >= k) {
+       Node *temp;
+       Split(now->child[0], k, t1, temp);
+       t2 = now; t2->child[0] = temp; 
+       t2->Update(); return;
+   } else {
+       Node *temp;
+       Split(now->child[1], k - ls - 1, temp, t2);
+       t1 = now; t1->child[1] = temp;
+       t1->Update(); return;
+   }
 }
 
-int merge (int x, int y) {
-	if (not x or not y) { return x | y; }
-
-	if (tr[x].key < tr[y].key) {
-		tr[x].rs = merge (tr[x].rs, y); pushUp (x);
-		return x;
-	} else {
-		tr[y].ls = merge (x, tr[y].ls); pushUp (y);
-		return y;
-	}
+Node *Merge(Node *a, Node *b) {
+   if (!a) return b;
+   if (!b) return a;
+   if (a->key < b->key) {
+       a->child[1] = Merge(a->child[1], b);
+       Update(a);
+       return a;
+   } else {
+       b->child[0] = Merge(a, b->child[0]);
+       Update(b);
+       return b;
+   }
 }
 
-inline void insert (int val) {
-	int x, y; split (root, val, x, y);
-	root = merge (merge (x, newNode (val)), y);
+void Insert(Node *x, int k) {
+   Node *t1, *t2;
+   Split(root, k - 1, t1, t2);
+   root = Merge(t1, Merge(x, t2));
 }
 
-inline void remove (int val) {
-	int x, y, z;
-	split (root, val, x, y);
-	split (x, val - 1, x, z);
-	z = merge (tr[z].ls, tr[z].rs);	
-	root = merge (merge (x, z), y);
+string FindKth(int pos) {
+   Node *lt, *tmp;
+   Split(root, pos - 1, lt, tmp);
+   Node *rt, *midt;
+   Split(tmp, 1, midt, rt);
+   string res = midt->name;
+   root = Merge(lt, Merge(midt, rt));
+   return res;
 }
 
-inline int getRank (int val) {
-	int x, y; split (root, val - 1, x, y);
-	int rank = tr[x].siz + 1;
-	root = merge (x, y);
-	return rank;
-}
-
-inline int getNum (int rank) {
-	int now = root;
-
-	while (now) {
-		if (tr[tr[now].ls].siz + 1 == rank) { return tr[now].val; }
-		else if (tr[tr[now].ls].siz >= rank) { now = tr[now].ls; }
-		else { rank -= tr[tr[now].ls].siz + 1; now = tr[now].rs; }
-	}
-
-	return -1;
-}
-
-inline int pre (int val) {
-	int x, y;
-	split (root, val - 1, x, y);
-	
-	int now = x;
-	while (tr[now].rs) { now = tr[now].rs; }
-
-	root = merge (x, y);
-
-	return tr[now].val;
-}
-
-inline int nxt (int val) {
-	int x, y; split (root, val, x, y);
-
-	int now = y;
-	while (tr[now].ls) { now = tr[now].ls; }
-
-	root = merge (x, y);
-
-	return tr[now].val;
-}
-
-int main () {
-	fastread
-
-    int n, Q; std::cin >> n >> Q;
-    
-    for (int i = 1; i <= n; i++) { int x; std::cin >> x; insert (x); } 
-
-    int lastans = 0;
-    int ans = 0;
-
-	while (Q--) {
-		int op, x; std::cin >> op >> x;
-
-        x ^= lastans;
-
-		if (op == 1) {
-			insert (x);
-		} else if (op == 2) {
-			remove (x);
-		} else if (op == 3) {
-			lastans = getRank (x); ans ^= lastans;
-		} else if (op == 4) {
-			lastans = getNum (x); ans ^= lastans;
-		} else if (op == 5) {
-			lastans = pre (x); ans ^= lastans;
-		} else if (op == 6) {
-			lastans = nxt (x); ans ^= lastans;
-		}
-	}
-
-	std::cout << ans << "\n";
-
-	return 0;
+int main() {
+   cin >> n;
+   string temp;
+//	for (int i = 1; i <= n; i++) cin >> (book + i)->name;
+//	for (int i = 1; i <= n; i++) Insert(book + i, i);
+   for (int i = 1; i <= n; i++) {
+       cin >> temp;
+       Insert(new Node(temp), i);
+   }
+   cin >> m;
+   int pos;
+   for (int i = 1; i <= m; i++) {
+       cin >> temp >> pos; pos++;
+       Insert(new Node(temp), pos);
+   }
+   cin >> q;
+   for (int i = 1; i <= q; i++) {
+       cin >> pos; pos++;
+       cout << FindKth(pos) << '\n';
+   }
+   return 0;
 }
