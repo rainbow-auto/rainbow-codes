@@ -1,117 +1,120 @@
-// luogu-judger-enable-o2
-#include <string>
-#include <iostream>
+#include<iostream>
+#include<cstdio>
+#include<cstring>
+#include<algorithm>
+#include<cstdlib>
+#include<ctime>
 
-const int MAXN = 205;
-const int MAXM = 1e5 + 5;
-const int MAXQ = 1e4 + 5;
+using namespace std;
 
-using std::cin;
-using std::cout;
-using std::string;
-
-int Rand() {
-   static int seed = 39444;
-   return seed = (((seed ^ 810872ll) + 1433223ll) * 19260817ll) % 2147483647;
+template <typename T>
+void read(T &x) {
+	x = 0; bool f = 0;
+	char c = getchar();
+	for (;!isdigit(c);c=getchar()) if (c=='-') f = 1;
+	for (;isdigit(c);c=getchar()) x=(x<<3)+(x<<1)+(c^48);
+	if (f) x=-x;
 }
 
-struct Node{
-   int key, siz;
-   string name;
-   Node *child[2];
-   Node(string name):name(name), key(Rand()), siz(1) {
-       child[0] = child[1] = NULL;
-   }
-   Node():key(Rand()), siz(1) {
-       child[0] = child[1] = NULL;
-   }
-};
+const int N = 100050;
+int tag[N], siz[N];
+int son[N][2], rnd[N];
+int val[N], mn[N];
 
-Node *root = NULL;
+struct node {  
+	int pos, num;
+	bool operator < (const node &i) const {
+		if (num != i.num) return num < i.num;
+		return pos < i.pos;
+	}
+}a[N];
+int n;
 
-//Node book[MAXN];
-
-int n, m, q;
-
-void Update(Node *now) {
-   now->siz = 1;
-   now->siz += now->child[0] ? now->child[0]->siz : 0;
-   now->siz += now->child[1] ? now->child[1]->siz : 0;
+int rt, x, y, z;
+int tot;
+int build(int x) {
+	val[++tot] = x, mn[tot] = x, siz[tot] = 1;
+	rnd[tot] = rand(); return tot;
 }
 
-void Split(Node *now, int k, Node *&t1, Node *&t2) {
-   if (!now) {
-       t1 = t2 = NULL; return;
-   } 
-   if (!k) {
-       t1 = NULL; t2 = now; return;
-   }
-   if (k >= now->size) {
-       t1 = now; t2 = NULL; return;
-   }
-   int ls = now->child[0] ? now->child[0]->size : 0;
-   if (ls >= k) {
-       Node *temp;
-       Split(now->child[0], k, t1, temp);
-       t2 = now; t2->child[0] = temp; 
-       t2->Update(); return;
-   } else {
-       Node *temp;
-       Split(now->child[1], k - ls - 1, temp, t2);
-       t1 = now; t1->child[1] = temp;
-       t1->Update(); return;
-   }
+int Mn(int x,int y) {return x < y ? x : y;}
+
+void update(int x) {
+	siz[x] = siz[son[x][0]] + siz[son[x][1]] + 1;
+	mn[x] = val[x]; 
+	if (son[x][0]) mn[x] = Mn(mn[son[x][0]], mn[x]);
+	if (son[x][1]) mn[x] = Mn(mn[son[x][1]], mn[x]);
 }
 
-Node *Merge(Node *a, Node *b) {
-   if (!a) return b;
-   if (!b) return a;
-   if (a->key < b->key) {
-       a->child[1] = Merge(a->child[1], b);
-       Update(a);
-       return a;
-   } else {
-       b->child[0] = Merge(a, b->child[0]);
-       Update(b);
-       return b;
-   }
+void spread(int x) {
+	if (!tag[x]) return;
+	swap(son[x][0], son[x][1]);
+	if (son[x][0]) tag[son[x][0]] ^= 1;
+	if (son[x][1]) tag[son[x][1]] ^= 1;
+	tag[x] = 0;
 }
 
-void Insert(Node *x, int k) {
-   Node *t1, *t2;
-   Split(root, k - 1, t1, t2);
-   root = Merge(t1, Merge(x, t2));
+int merge(int x,int y) {
+	if (!x || !y) return x | y;
+	if (rnd[x] < rnd[y]) {
+		spread(x);
+		son[x][1] = merge(son[x][1], y);
+		update(x); return x;
+	}
+	spread(y);
+	son[y][0] = merge(x, son[y][0]);
+	update(y); return y;
 }
 
-string FindKth(int pos) {
-   Node *lt, *tmp;
-   Split(root, pos - 1, lt, tmp);
-   Node *rt, *midt;
-   Split(tmp, 1, midt, rt);
-   string res = midt->name;
-   root = Merge(lt, Merge(midt, rt));
-   return res;
+void split(int now,int k,int &x,int &y) {
+	if (!now) {
+		x = y = 0; return;
+	}
+	spread(now);
+	if (siz[son[now][0]] < k) {
+		x = now;
+		split(son[x][1], k - siz[son[x][0]] - 1, son[x][1], y);
+	}
+	else y = now, split(son[y][0], k, x, son[y][0]);
+	update(now);
 }
 
+//找出最小值的排名
+int get_rk(int x) {
+	int k = 1; //初始排名
+	while (1) {
+		spread(x);
+		if (son[x][0] && mn[son[x][0]] == mn[x]) 
+      		x = son[x][0]; //在左子树
+		else if (son[x][1] && mn[son[x][1]] == mn[x]) 
+        	k += siz[son[x][0]] + 1, x = son[x][1]; //在右子树
+		else return k + siz[son[x][0]]; //在当前节点
+	}
+}
+
+int v[N];
 int main() {
-   cin >> n;
-   string temp;
-//	for (int i = 1; i <= n; i++) cin >> (book + i)->name;
-//	for (int i = 1; i <= n; i++) Insert(book + i, i);
-   for (int i = 1; i <= n; i++) {
-       cin >> temp;
-       Insert(new Node(temp), i);
-   }
-   cin >> m;
-   int pos;
-   for (int i = 1; i <= m; i++) {
-       cin >> temp >> pos; pos++;
-       Insert(new Node(temp), pos);
-   }
-   cin >> q;
-   for (int i = 1; i <= q; i++) {
-       cin >> pos; pos++;
-       cout << FindKth(pos) << '\n';
-   }
-   return 0;
+	read(n);
+	for (int i = 1;i <= n; i++) {
+		read(a[i].num); a[i].pos = i;
+	}
+	sort(a + 1, a + n + 1);
+	for (int i = 1;i <= n; i++)
+	v[a[i].pos] = i;
+	for (int i = 1;i <= n; i++) 
+		rt = merge(rt, build(v[i]));
+	for (int i = 1;i <= n; i++) {
+		int k = get_rk(rt);
+		split(rt, k, x, y);
+		split(x, k-1, x, z);
+		tag[x] ^= 1;
+		rt = merge(x, y);
+		printf ("%d ", k + i - 1);
+	}
+	return 0;
 }
+/*
+7
+1 8 6 5 3 5 2
+
+*/
