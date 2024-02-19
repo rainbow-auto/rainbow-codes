@@ -1,0 +1,1 @@
+{"name":"Local: A","url":"d:\\000 Noip\\000 Code\\Comp\\24-02-18 CF927\\A.cpp","tests":[{"id":1708258717459,"input":"3\n10\n.@@*@.**@@\n5\n.@@@@\n15\n.@@..@***..@@@*","output":"3\n4\n3"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\000 Noip\\000 Code\\Comp\\24-02-18 CF927\\A.cpp","group":"local","local":true}
