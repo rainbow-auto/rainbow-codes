@@ -1,42 +1,88 @@
-#include<bits/stdc++.h> 
+#include<bits/stdc++.h>//P1966 火柴排队
 using namespace std;
-int n,m,ans=0;
-int a[105][105];
-bool used[105][105];
-int dx[4]={-1,1,0,0};
-int dy[4]={0,0,-1,1};
-void dfs(int x,int y)
+#define re register
+#define ll long long
+#define il inline
+#define dou double
+#define un unsigned
+il ll read()
 {
-	std::cerr << x << " " << y << "\n";
-	
-	used[x][y]=1;
-	for(int i=0;i<4;i++)
+	char c=getchar();int x=0,f=1;
+	while(c<'0'||c>'9'){if(c=='-')f=-1;c=getchar();}
+	while(c>='0'&&c<='9'){x=x*10+c-'0';c=getchar();}
+	return x*f;
+}
+#define N 100000+10
+#define M 99999997
+int n,ans;
+struct number
+{
+	ll val,num;
+};
+number a[N],b[N];
+ll bit[N],x[N];
+il bool cmp(number x,number y)
+{
+	if(x.val==y.val)
+		return x.num<y.num;
+	return x.val<y.val;
+}
+il ll lowbit(int x)
+{
+	return x&(-x);
+}
+il void change(int x,int d)
+{
+	for(re int i=x;i<=n;i+=lowbit(i))
 	{
-		int nx=x+dx[i];
-		int ny=y+dy[i];
-		if(a[nx][ny]==0 || used[nx][ny]==1) continue;
-		dfs(nx,ny);
-	}
+		bit[i]+=d;
+		bit[i]%=M;
+	}	
+}
+il ll query(int x)
+{
+	if(x==0)
+		return 0;
+	ll ret=0;
+	for(re int i=x;i>=1;i-=lowbit(i))
+	{
+		ret+=bit[i];
+		ret%=M;
+	}	
+	return ret;
 }
 int main()
 {
-	cin>>n>>m;
-	memset(a,0,sizeof(a));
-	for(int i=1;i<=n;i++)
-		for(int j=1;j<=m;j++) 
-			scanf("%1d",&a[i][j]);
-	for(int i=1;i<=n;i++)
+	n=read();
+	for(re int i=1;i<=n;i++)
 	{
-		for(int j=1;j<=m;j++)
-		{
-			if(used[i][j]==0 && a[i][j]!=0)
-			{
-				dfs(i,j);
-				ans++;
-				std::cerr << "\n";
-			}
-		}
+		a[i].val=read();
+		a[i].num=i;
 	}
-	cout<<ans;	
+	for(re int i=1;i<=n;i++)
+	{
+		b[i].val=read();
+		b[i].num=i;
+	}
+	for (int i = 1; i <= n; i++) { std::cerr << a[i].num << ' '; } std::cerr << "\n";
+	for (int i = 1; i <= n; i++) { std::cerr << b[i].num << ' '; } std::cerr << "\n";
+	
+	std::cerr << "\n";
+
+	sort(a+1,a+n+1,cmp);
+	sort(b+1,b+n+1,cmp);
+	
+	for (int i = 1; i <= n; i++) { std::cerr << a[i].num << ' '; } std::cerr << "\n";
+	for (int i = 1; i <= n; i++) { std::cerr << b[i].num << ' '; } std::cerr << "\n";
+	
+	for(re int i=1;i<=n;i++)
+		x[a[i].num]=b[i].num;
+	for(re int i=1;i<=n;i++)
+	{
+		change(x[i],1);
+		ans+=i-query(x[i]);
+		ans%=M;
+	}
+	cout<<ans<<endl;
 	return 0;
 }
