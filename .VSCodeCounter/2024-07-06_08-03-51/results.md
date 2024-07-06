@@ -1,21 +1,21 @@
 # Summary
 
-Date : 2024-06-29 21:47:19
+Date : 2024-07-06 08:03:51
 
-Directory d:\\000 Noip\\000 Code\\Comp\\24-06-01 MXOI-pre
+Directory d:\\000 Noip\\000 Code\\Comp\\24-06-29 MX-Weekly-S
 
-Total : 14 files,  898 codes, 34 comments, 377 blanks, all 1309 lines
+Total : 11 files,  380 codes, 24 comments, 163 blanks, all 567 lines
 
 Summary / [Details](details.md) / [Diff Summary](diff.md) / [Diff Details](diff-details.md)
 
 ## Languages
 | language | files | code | comment | blank | total |
 | :--- | ---: | ---: | ---: | ---: | ---: |
-| C++ | 14 | 898 | 34 | 377 | 1,309 |
+| C++ | 11 | 380 | 24 | 163 | 567 |
 
 ## Directories
 | path | files | code | comment | blank | total |
 | :--- | ---: | ---: | ---: | ---: | ---: |
-| . | 14 | 898 | 34 | 377 | 1,309 |
+| . | 11 | 380 | 24 | 163 | 567 |
 
 Summary / [Details](details.md) / [Diff Summary](diff.md) / [Diff Details](diff-details.md)
