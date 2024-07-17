@@ -1,145 +1,68 @@
-// LUOGU_RID: 113801128
-// Problem: G - Minimum Xor Pair Query
-// Contest: AtCoder - AtCoder Beginner Contest 308
-// URL: https://atcoder.jp/contests/abc308/tasks/abc308_g
-// Memory Limit: 1024 MB
-// Time Limit: 3000 ms
-// 
-// Powered by CP Editor (https://cpeditor.org)
-
-#include <bits/stdc++.h>
-#define pb emplace_back
-#define fst first
-#define scd second
-#define mems(a, x) memset((a), (x), sizeof(a))
-
+#include<bits/stdc++.h>
 using namespace std;
-typedef long long ll;
-typedef double db;
-typedef unsigned long long ull;
-typedef long double ldb;
-typedef pair<ll, ll> pii;
-
-const int maxn = 300100;
-
-int q, ch[maxn * 33][2], sz[maxn * 33], ntot, ans[maxn], res = (1 << 30);
-vector<int> tree[maxn << 2];
-
-struct node {
-	int l, r, x;
-	node(int a = 0, int b = 0, int c = 0) : l(a), r(b), x(c) {}
-};
-
-inline void insert(int x) {
-	int p = 0;
-	for (int i = 29; ~i; --i) {
-		int t = ((x >> i) & 1);
-		if (!ch[p][t]) {
-			ch[p][t] = ++ntot;
-		}
-		p = ch[p][t];
-		++sz[p];
-	}
+#define ll long long
+const ll mod=1e9+7;
+int m,d,len,a[2005];
+ll f[2005][2005];
+char l[2005],r[2005];
+ll dfs(int k,int x,int p)
+{
+    if(k>len)
+        return x?0:1;//当前数要整除m 
+    if(!p&&f[k][x]!=-1)
+        return f[k][x];
+    int y=p?a[k]:9;//当前位可取的最大值 
+    ll res=0;
+    if(k&1)
+    {
+        for(int i=0;i<=y;i++)
+        {
+            if(i==d)
+                continue;
+            res=(res+dfs(k+1,(x*10+i)%m,p&&(i==y)))%mod; 
+        }
+    }//奇数位 
+    else
+    {
+        if(d<=y)
+            res=(res+dfs(k+1,(x*10+d)%m,p&&(d==y)))%mod;
+    }//偶数位 
+    if(!p)
+        f[k][x]=res;//如果没有限制就记忆化 
+    return res;
 }
-
-inline void erase(int x) {
-	int p = 0;
-	for (int i = 29; ~i; --i) {
-		int t = ((x >> i) & 1);
-		p = ch[p][t];
-		--sz[p];
-	}
+ll divide(char *s)
+{
+    len=strlen(s+1);
+    for(int i=1;i<=len;i++)
+        a[i]=s[i]-'0';
+    return dfs(1,0,1);
 }
-
-void update(int rt, int l, int r, int ql, int qr, int x) {
-	if (ql <= l && r <= qr) {
-		tree[rt].pb(x);
-		return;
-	}
-	int mid = (l + r) >> 1;
-	if (ql <= mid) {
-		update(rt << 1, l, mid, ql, qr, x);
-	}
-	if (qr > mid) {
-		update(rt << 1 | 1, mid + 1, r, ql, qr, x);
-	}
-}
-
-void dfs(int rt, int l, int r) {
-	int lst = res;
-	for (int x : tree[rt]) {
-		int p = 0, s = 0;
-		for (int i = 29; ~i; --i) {
-			int t = ((x >> i) & 1);
-			if (sz[ch[p][t]]) {
-				p = ch[p][t];
-			} else {
-				s |= (1 << i);
-				p = ch[p][t ^ 1];
-			}
-		}
-		res = min(res, s);
-		insert(x);
-	}
-	if (l == r) {
-		ans[l] = res;
-	} else {
-		int mid = (l + r) >> 1;
-		dfs(rt << 1, l, mid);
-		dfs(rt << 1 | 1, mid + 1, r);
-	}
-	res = lst;
-	for (int x : tree[rt]) {
-		erase(x);
-	}
-}
-
-void solve() {
-	scanf("%d", &q);
-	map< int, vector<int> > mp;
-	int m = 0;
-	vector<node> vc;
-	for (int i = 1, op, x; i <= q; ++i) {
-		scanf("%d", &op);
-		if (op == 1) {
-			scanf("%d", &x);
-			mp[x].pb(m + 1);
-		} else if (op == 2) {
-			scanf("%d", &x);
-			int l = mp[x].back(), r = m;
-			mp[x].pop_back();
-			if (l <= r) {
-				vc.pb(l, r, x);
-			}
-		} else {
-			++m;
-		}
-	}
-	if (!m) {
-		return;
-	}
-	for (node u : vc) {
-		update(1, 1, m, u.l, u.r, u.x);
-	}
-	for (auto p : mp) {
-		int x = p.fst;
-		for (int k : p.scd) {
-			if (k <= m) {
-				update(1, 1, m, k, m, x);
-			}
-		}
-	}
-	dfs(1, 1, m);
-	for (int i = 1; i <= m; ++i) {
-		printf("%d\n", ans[i]);
-	}
-}
-
-int main() {
-	int T = 1;
-	// scanf("%d", &T);
-	while (T--) {
-		solve();
-	}
-	return 0;
+bool check(char *s)
+{
+    len=strlen(s+1);
+    int x=0;
+    for(int i=1;i<=len;i++)
+    {
+        int y=s[i]-'0';
+        x=(x*10+y)%m;
+        if(i&1)
+        {
+            if(y==d)
+                return false;
+        }
+        else
+        {
+            if(y!=d)
+                return false;
+        }
+    }
+    return !x;
+}//单独判断l 
+int main()
+{
+	memset(f,-1,sizeof(f));//初始化一遍即可，memset效率很低
+    scanf("%d%d%s%s",&m,&d,l+1,r+1);
+    printf("%lld\n",(divide(r)-divide(l)+check(l)+mod)%mod);
+    return 0;
 }
