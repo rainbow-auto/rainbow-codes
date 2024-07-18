@@ -16,17 +16,16 @@ std::vector<Edge> es;
 
 std::vector<int> g[maxn];
 
-bool vis[maxn];
-
 int ind[maxn], otd[maxn];
 
+int st[maxn];
 std::vector<int> euler;
 void dfs (int now, int eid) {
-    for (auto t : g[now]) { // g[now] 中编号一定是单增的
-        if (not vis[t]) {
-            vis[t] = true;
-            dfs (es[t].v, t);
-        }
+    for (int i = st[now]; i < g[now].size (); i = st[now]) { // g[now] 中编号一定是单增的
+        st[now] = i + 1;
+
+        int t = g[now][i];
+        dfs (es[t].v, t);
     }
     euler.push_back (eid);
 }
@@ -66,12 +65,12 @@ int main () {
     for (int i = 1; i <= n; i++) {
         std::string s; std::cin >> s;
      
-        if (not chk (s)) { std::cout << -1 << "\n"; return 0; }
+        if (not chk (s)) { std::cout << "-1\n"; return 0; }
      
         int pos = 0;
         for (auto c : s) { if (c == '1') { break; } pos ++; }
 
-        int u = (b - pos + m) % m;
+        int u = ((b - pos) % m + m) % m;
         int v = (u + s.size ()) % m;
 
         otd[u] ++;
@@ -81,13 +80,13 @@ int main () {
         g[u].push_back (es.size () - 1);
     }
 
-    for (int i = 0; i < m; i++) { if (ind[i] != otd[i]) { std::cout << -1 << "\n"; return 0; } }
+    for (int i = 0; i < m; i++) { if (ind[i] != otd[i]) { std::cout << "-1\n"; return 0; } }
 
     dfs (0, -1);
 
     std::reverse (euler.begin (), euler.end ());
 
-    if (euler.size () != n + 1) { std::cout << -1 << "\n"; return 0; }
+    if (euler.size () != n + 1) { std::cout << "-1\n"; return 0; }
 
     for (auto now : euler) {
         if (now == -1) { continue; }
