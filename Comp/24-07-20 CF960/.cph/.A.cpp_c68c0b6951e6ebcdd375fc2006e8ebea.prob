@@ -1,0 +1,1 @@
+{"name":"Local: A","url":"d:\\000 OI\\000 Code\\Comp\\24-07-20 CF960\\A.cpp","tests":[{"id":1721486596127,"input":"6\n2\n2 1\n2\n1 1\n3\n3 3 3\n4\n3 3 4 4\n4\n1 2 2 2\n3\n3 4 4","output":"YES\nNO\nYES\nNO\nYES\nYES"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\000 OI\\000 Code\\Comp\\24-07-20 CF960\\A.cpp","group":"local","local":true}
