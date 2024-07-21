@@ -18,7 +18,7 @@ using i64 = long long;
 #define fastread std::ios::sync_with_stdio(false); std::cin.tie(0);
 
 #ifdef RainbowAutomatonDebugFlag
-#define db(x) std::cout << #x << " : " << x << "\n";
+#define db(x) std::cerr << #x << " : " << x << "\n";
 #else
 #define db(x) void (0);
 #endif
