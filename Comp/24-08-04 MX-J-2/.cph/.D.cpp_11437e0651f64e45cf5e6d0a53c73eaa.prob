@@ -1,0 +1,1 @@
+{"name":"Local: D","url":"d:\\000 OI\\000 Code\\Comp\\24-08-04 MX-J-2\\D.cpp","tests":[{"id":1722760758218,"input":"3\n2\n1 0\n5\n2 3 0 4 1\n10\n0 5 9 7 3 1 6 4 8 2","output":"0\n1\n5"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\000 OI\\000 Code\\Comp\\24-08-04 MX-J-2\\D.cpp","group":"local","local":true}
