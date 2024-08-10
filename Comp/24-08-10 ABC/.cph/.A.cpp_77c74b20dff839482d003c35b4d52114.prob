@@ -1,0 +1,1 @@
+{"name":"Local: A","url":"d:\\000 OI\\000 Code\\Comp\\24-08-10 ABC\\A.cpp","tests":[{"id":1723291326118,"input":"7 4 2","output":"Yes"},{"id":1723291335136,"input":"99 12 48\n","output":"No"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\000 OI\\000 Code\\Comp\\24-08-10 ABC\\A.cpp","group":"local","local":true}
