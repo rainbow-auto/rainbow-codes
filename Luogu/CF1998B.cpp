@@ -26,8 +26,23 @@ using i64 = long long;
 #define db(x) void (0);
 #endif
 
+const int maxn = 200005;
+
+int n;
+int a[maxn];
+
 int main () {
 	fastread
-	
+
+	int T; std::cin >> T;
+
+	while (T--) {
+		std::cin >> n;
+		rep (i, 1, n) { std::cin >> a[i]; }
+
+		rep (i, 2, n) { std::cout << a[i] << " "; } std::cout << a[1] << "\n";
+	}
+
+
 	return 0;
 }
