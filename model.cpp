@@ -17,6 +17,9 @@ using i64 = long long;
 
 #define fastread std::ios::sync_with_stdio(false); std::cin.tie(0);
 
+#define rep(__name__, __st__, __ed__) for (int __name__ = (__st__); __name__ <= (__ed__); __name__ ++)
+#define per(__name__, __st__, __ed__) for (int __name__ = (__st__); __name__ >= (__ed__); __name__ --)
+
 #ifdef RainbowAutomatonDebugFlag
 #define db(x) std::cerr << #x << " : " << x << "\n";
 #else
