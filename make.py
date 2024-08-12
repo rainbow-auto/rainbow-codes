@@ -18,7 +18,7 @@ class ProblemCommitTool:
         if os.path.exists(path):
             print("Warning: Path already existed! Add anyway? [y/N]")
             arg = input()
-            if arg == 'N' or arg == 'n' or arg == '':
+            if arg == 'N' or arg == 'n' or arg == '\n':
                 return False
         
         return True
@@ -51,7 +51,12 @@ class CalculateTool:
 
 class ComptetionTool:
     def createProblem(self, compName, problem):
+        os.system(f'mkdir "Comp/{compName}/{problem}"')
+        shutil.copy("model.cpp", f"Comp/{compName}/{problem}.cpp")
         os.system(f'code "Comp/{compName}/{problem}.cpp"')
+
+    def openCompFolder(self, compName):
+        os.system(f'explorer "Comp\\{compName}"')
 
     def commit(self, compName):
         os.system("git add Comp")
@@ -89,11 +94,12 @@ if __name__ == "__main__":
                 status = compName
             else:
                 print("Error: command not found")
-                print("Please check that the input is correct!")
         else:
             if command == "finish":
                 status = "Normal"
             elif command == "commit":
                 compCommitter.commit(compName = status)
+            elif command == "open":
+                compCommitter.openCompFolder(compName = status)
             else:
                 compCommitter.createProblem(compName = status, problem = inputArgs[0])
