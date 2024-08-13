@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <string>
 #include <vector>
-#include <list>
+#include <bitset>
 #include <stack>
 #include <map>
 #include <set>
