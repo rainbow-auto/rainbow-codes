@@ -43,7 +43,7 @@ int main () {
 	std::cin >> n >> m >> k;
 	std::cin >> s;
 	s = " " + s + s;
-
+	
 	rep (i, 1, (n << 1)) { sum[i] = sum[i - 1] + (s[i] == 'x'); }	
 
 	i64 tot = 0; rep (i, 1, n) { tot += s[i] == 'x'; }
