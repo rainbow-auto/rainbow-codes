@@ -50,9 +50,12 @@ class CalculateTool:
         return eval(expression)
 
 class ComptetionTool:
+    def createComp (self, compName):
+        os.system(f'mkdir "Comp/{compName}"')
+
     def createProblem(self, compName, problem):
-        os.system(f'mkdir "Comp/{compName}/{problem}"')
-        shutil.copy("model.cpp", f"Comp/{compName}/{problem}.cpp")
+        if not os.path.exists (f"Comp/{compName}/{problem}.cpp"):
+            shutil.copy("model.cpp", f"Comp/{compName}/{problem}.cpp")
         os.system(f'code "Comp/{compName}/{problem}.cpp"')
 
     def openCompFolder(self, compName):
@@ -91,6 +94,13 @@ if __name__ == "__main__":
                 print(calculator.calc(inputArgs[1:]))
             elif command == "comp":
                 compName = time.strftime("%y-%m-%d", time.localtime()) + " " + inputArgs[1]
+                status = compName
+                compCommitter.createComp(compName)
+            elif command == "oldcomp":
+                compName = "" 
+                for name in inputArgs[1:]:
+                    compName = compName + " " + name
+                compName = compName[1:]
                 status = compName
             else:
                 print("Error: command not found")
