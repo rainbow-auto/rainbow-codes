@@ -30,8 +30,16 @@ using i64 = long long;
 #define dbline() void (0);
 #endif
 
+int n, A, B;
+
 int main () {
 	fastread
-	
+
+	std::cin >> n >> A >> B;
+	rep (i, 1, n) { 
+		int c; std::cin >> c; 
+		if (c == A + B) { std::cout << i << "\n"; return 0; } 
+	}
+
 	return 0;
 }

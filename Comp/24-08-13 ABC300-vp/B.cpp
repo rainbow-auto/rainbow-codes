@@ -30,8 +30,39 @@ using i64 = long long;
 #define dbline() void (0);
 #endif
 
+const int maxn = 35;
+
+int n, m;
+
+char a[maxn][maxn];
+char b[maxn][maxn];
+
+int a_new[maxn][maxn];
+inline bool chk (int s, int t) {
+	rep (i, 0, n - 1) {
+		rep (j, 0, m - 1) {
+			a_new[(i + s) % n][(j + t) % m] = a[i][j]; 
+		}
+	}
+
+	rep (i, 0, n - 1) { rep (j, 0, m - 1) { if (a_new[i][j] != b[i][j]) { return false; } } }
+	return true;
+}
+
 int main () {
 	fastread
-	
+
+	std::cin >> n >> m;
+	rep (i, 0, n - 1) { rep (j, 0, m - 1) { std::cin >> a[i][j]; } }
+	rep (i, 0, n - 1) { rep (j, 0, m - 1) { std::cin >> b[i][j]; } }
+
+	rep (s, 0, n - 1) {
+		rep (t, 0, m - 1) {
+			if (chk (s, t)) { std::cout << "Yes\n"; return 0; }
+		}
+	}
+
+	std::cout << "No\n";
+
 	return 0;
 }
