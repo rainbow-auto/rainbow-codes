@@ -30,39 +30,37 @@ using i64 = long long;
 #define dbline() void (0);
 #endif
 
-const int maxn = 600005;
+const int maxn = 200005;
 
-i64 n, m, k;
-std::string s;
-
-i64 sum[maxn];
+int n;
+i64 a[maxn], pre[maxn];
+i64 cnt[40][2];
 
 int main () {
 	fastread
 
-	std::cin >> n >> m >> k;
-	std::cin >> s;
-	s = " " + s + s;
-	
-	rep (i, 1, (n << 1)) { sum[i] = sum[i - 1] + (s[i] == 'x'); }	
+	std::cin >> n;
+	rep (i, 1, n) { std::cin >> a[i]; }
 
-	i64 tot = 0; rep (i, 1, n) { tot += s[i] == 'x'; }
-	
-	i64 cnt = k / tot;
-	m -= cnt;
-	k %= tot;
-	
+	rep (i, 1, n) { pre[i] = (pre[i - 1] xor a[i]); }
+
 	i64 ans = 0;
-	for (i64 l = 1, r = 1; l <= n and r <= (n << 1); l ++) {
-		while (r + 1 <= (n << 1) and sum[r + 1] - sum[l - 1] <= k) { r++; }
-		
-		if (m == 1) { ans = std::max (ans, std::min (r, n) - l + 1); }
-		if (m > 1) { ans = std::max (ans, r - l + 1); }
+	rep (r, 0, n) {
+		rep (b, 0, 31) {
+			bool curr = (pre[r] & (1 << b));
+			if (cnt[b][curr ^ 1]) { ans += cnt[b][curr ^ 1] * (1 << b); }
+		}
+
+		rep (b, 0, 31) {
+			bool curr = (pre[r] & (1 << b));
+			cnt[b][curr] ++; 
+		}
 	}
 
-	ans += cnt * n;
-
-	std::cout << ans << "\n";
+	i64 sum = 0;
+	rep (i, 1, n) { sum += a[i]; }
+	
+	std::cout << ans - sum << "\n";
 
 	return 0;
 }
