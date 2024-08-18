@@ -44,11 +44,7 @@ int main () {
 		for (int i = 1; i <= n; i += c) { cnt[i] ++; }
 	}
 
-	std::cout << cnt[1] << "\n";
-
-	rep (i, 2, n) { if (not (i & 1)) { std::cout << cnt[i] << " "; } } std::cout << "\n";
-
-	rep (i, 2, n) { if (i & 1) { std::cout << cnt[i] << " "; } } std::cout << "\n";
+	rep (i, 1, n) { std::cout << cnt[i] << " "; }
 
 	return 0;
 }

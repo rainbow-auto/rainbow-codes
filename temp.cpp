@@ -32,8 +32,15 @@ using i64 = long long;
 #define dbline() void (0);
 #endif
 
+#define lookMem std::cerr << abs (&MemST - &MemED) / 1024.0 / 1024.0 << "MB defined\n";
+bool MemST;
+
+
+
+bool MemED;
 int main () {
 	fastread
-	
+	// lookMem	
+
 	return 0;
 }
