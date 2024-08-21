@@ -1,0 +1,1 @@
+g++ temp.cpp -o temp -std=c++14 -fsanitize=address,undefined && ./temp
