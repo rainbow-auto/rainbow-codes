@@ -10,7 +10,8 @@ problemTypeIndex = {
     "loj": "LibreOJ/",
     "bzoj": "BZOJ/",
     "todo": "TodoList/",
-    "cf": "CodeforcesVP/"
+    "cf": "CodeforcesVP/",
+    "hdu": "HDU/"
 }
 
 class ProblemCommitTool:
