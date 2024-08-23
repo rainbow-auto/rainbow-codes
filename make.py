@@ -103,6 +103,10 @@ if __name__ == "__main__":
                     compName = compName + " " + name
                 compName = compName[1:]
                 status = compName
+            elif command == "std":
+                os.system("code std.cpp")
+            elif command == "temp":
+                os.system("code temp.cpp")
             else:
                 print("Error: command not found")
         else:
