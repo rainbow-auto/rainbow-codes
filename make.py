@@ -13,7 +13,8 @@ problemTypeIndex = {
     "cf": "CodeforcesVP/",
     "hdu": "HDU/",
     "gym": "CodeforcesGym/",
-    "csg": "CSG/"
+    "csg": "CSG/",
+    "boj": "BOJ/"
 }
 
 class ProblemCommitTool:
