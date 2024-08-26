@@ -12,7 +12,8 @@ problemTypeIndex = {
     "todo": "TodoList/",
     "cf": "CodeforcesVP/",
     "hdu": "HDU/",
-    "gym": "CodeforcesGym/"
+    "gym": "CodeforcesGym/",
+    "csg": "CSG/"
 }
 
 class ProblemCommitTool:
