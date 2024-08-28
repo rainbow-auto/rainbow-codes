@@ -1,17 +1,4 @@
-#include <iostream>
-#include <algorithm>
-#include <string>
-#include <vector>
-#include <bitset>
-#include <stack>
-#include <map>
-#include <set>
-#include <unordered_map>
-#include <unordered_set>
-#include <cstdio>
-#include <cstring>
-#include <cmath>
-#include <queue>
+#include <bits/stdc++.h>
 
 // #pragma GCC optimize(2)
 
