@@ -13,7 +13,7 @@
 #include <cmath>
 #include <queue>
 
-#pragma GCC Optimize(2)
+// #pragma GCC optimize(2)
 
 using i64 = long long;
 
