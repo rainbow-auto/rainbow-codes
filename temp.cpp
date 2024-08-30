@@ -20,6 +20,8 @@ using f64 = long double;
 #endif
 
 #define lookMem std::cerr << abs (&MemST - &MemED) / 1024.0 / 1024.0 << "MB defined\n";
+#define lookTime std::cerr << (double) (clock () - TimeST) / CLOCKS_PER_SEC << "s used\n";
+int TimeST;
 bool MemST;
 
 
@@ -28,6 +30,7 @@ bool MemED;
 int main () {
 	fastread
 	// lookMem	
+	// TimeST = clock ();
 
 	return 0;
 }
