@@ -58,6 +58,7 @@ class CalculateTool:
 class ComptetionTool:
     def createComp (self, compName):
         os.system(f'mkdir "Comp/{compName}"')
+        os.system(f'mkdir "Comp/{compName}/After"')
 
     def createProblem(self, compName, problem):
         if not os.path.exists (f"Comp/{compName}/{problem}.cpp"):
