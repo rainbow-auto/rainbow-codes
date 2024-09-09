@@ -35,7 +35,7 @@ int main () {
 	// lookMem	
 	// TimeST = clock ();
 
-	n = 8; m = 8;
+	n = 10000; m = 100;
 
 	rep (i, 1, m) { b[i] = i; }
 

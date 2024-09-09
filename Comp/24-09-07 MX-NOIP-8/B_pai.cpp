@@ -27,7 +27,7 @@ bool MemST;
 inline bool pai () {
 	system ("B_gen.exe > B.in");
 	system ("B_STD.exe < B.in > B_std.out");
-	system ("B.exe < B.in > B.out");
+	system ("After\\B.exe < B.in > B.out");
 
 	if (system ("fc.exe B.out B_std.out")) { return false; }
 	return true;

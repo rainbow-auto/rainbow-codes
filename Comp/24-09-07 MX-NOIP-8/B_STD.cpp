@@ -49,11 +49,16 @@ signed main() {
             }
         }
 
+        std::cerr << i << "\n";
+        std::cerr << "sum = " << ct << "\n";
+        std::cerr << "lcm = " << val << "\n";
 
         f[i] = 1ll * ksm(1ll * ct * ksm(m) % P, n); // \frac{(\sum l_i cnt_{l_i}) ^ n}{m ^ n} 
         for (int j = (i - 1) & i; j; j = (j - 1) & i) {
             ((f[i] -= f[j]) < 0) && (f[i] += P);
         }
+
+        std::cerr << "delta: " << 1ll * val % P * f[i] % P << "\n";
 
         res = (res + 1ll * val % P * f[i]) % P;
     }
@@ -63,3 +68,18 @@ signed main() {
     printf("%d\n", res);
     return 0;
 }
+
+/*
+1
+sum = 14
+lcm = 7
+delta: 144265726
+2
+sum = 86
+lcm = 86
+delta: 758733393
+3
+sum = 100
+lcm = 602
+delta: 282014541
+*/
