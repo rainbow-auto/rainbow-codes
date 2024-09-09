@@ -235,7 +235,7 @@ namespace Baoli2 {
 	}
 }
 
-// #define testSolution
+#define testSolution
 
 bool MemED;
 int main () {
@@ -243,8 +243,8 @@ int main () {
 	// lookMem	
 	// TimeST = clock ();
 
-	// freopen ("b.in", "r", stdin);
-	// freopen ("b.out", "w", stdout);
+	freopen ("b.in", "r", stdin);
+	freopen ("b.out", "w", stdout);
 
 	std::cin >> n >> m;
 	rep (i, 1, m) { std::cin >> b[i]; }
