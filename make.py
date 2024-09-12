@@ -40,6 +40,7 @@ class ProblemCommitTool:
         filePath = prefix + str(problemId) + ".cpp"
         if self.check(filePath):
             shutil.copy(problemPath, filePath)
+            print (problemPath)
             os.remove(problemPath)
             self.gitSync(problemId)
 
