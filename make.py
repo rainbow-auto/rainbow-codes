@@ -40,6 +40,7 @@ class ProblemCommitTool:
         filePath = prefix + str(problemId) + ".cpp"
         if self.check(filePath):
             shutil.copy(problemPath, filePath)
+            os.remove(problemPath)
             self.gitSync(problemId)
 
     def commit(self, problemType, problemId, problemPath):
@@ -57,7 +58,7 @@ class ProblemCommitTool:
             problem_name = t[0] + t[1]
             return problem_name, filename
         print ("Error: cannot find the problem")
-        return ""
+        return "",""
 
 class ComptetionTool:
     def createComp (self, compName):
