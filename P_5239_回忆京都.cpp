@@ -24,41 +24,13 @@ using f64 = long double;
 int TimeST;
 bool MemST;
 
-const int maxn = 2005;
-const i64 mod = 19260817;
 
-int c[maxn][maxn];
-i64 sum[maxn][maxn];
-
-inline void init (int R) {
-	rep (i, 0, R) { c[i][0] = c[i][i] = 1; }
-	rep (i, 1, R) {
-		rep (j, 1, i - 1) {
-			c[i][j] = (c[i - 1][j] + c[i - 1][j - 1]) % mod;
-		}
-	}
-
-	rep (i, 1, R) {
-		rep (j, 1, R) {
-			sum[i][j] = ((((sum[i - 1][j] + sum[i][j - 1]) % mod - sum[i - 1][j - 1]) % mod + mod) % mod + c[i][j]) % mod;
-		}
-	}
-}
 
 bool MemED;
 int main () {
 	fastread
 	// lookMem	
 	// TimeST = clock ();
-
-	int _; std::cin >> _;
-
-	init (2000);
-
-	while (_--) {
-		int n, m; std::cin >> n >> m;
-		std::cout << sum[m][n] << "\n";
-	}
 
 	return 0;
 }

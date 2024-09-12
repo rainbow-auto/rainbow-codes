@@ -18,6 +18,8 @@ problemTypeIndex = {
     "codechef": "CodeChef/"
 }
 
+ignoreFiles = ["temp.cpp", "model.cpp", "std.cpp"]
+
 class ProblemCommitTool:
     def check(self, path):
         if os.path.exists(path):
@@ -34,31 +36,34 @@ class ProblemCommitTool:
         os.system("git push RainbowCodes")
         os.system("git push RainbowCodes-Github")
     
-    def move(self, prefix, problemId):
+    def move(self, prefix, problemId, problemPath):
         filePath = prefix + str(problemId) + ".cpp"
         if self.check(filePath):
-            shutil.copy("temp.cpp", filePath)
-            shutil.copy("model.cpp", "temp.cpp")
+            shutil.copy(problemPath, filePath)
             self.gitSync(problemId)
 
-    def commit(self, problemType, problemId):
-        self.move(problemTypeIndex[problemType], problemId)
+    def commit(self, problemType, problemId, problemPath):
+        self.move(problemTypeIndex[problemType], problemId, problemPath)
 
-    def clear(self):
-        shutil.copy("model.cpp", "temp.cpp")
-
-class CalculateTool:
-    def calc(self, args):
-        expression = ""
-        for i in args:
-            expression += str(i)
-
-        return eval(expression)
+    def getProblem (self):
+        files = os.listdir(".")
+        for filename in files:
+            file_base_name, file_ext = os.path.splitext (filename)
+            if file_ext != ".cpp": 
+                continue
+            if filename in ignoreFiles:
+                continue
+            t = file_base_name.split ("_")
+            problem_name = t[0] + t[1]
+            return problem_name, filename
+        print ("Error: cannot find the problem")
+        return ""
 
 class ComptetionTool:
     def createComp (self, compName):
         os.system(f'mkdir "Comp/{compName}"')
         os.system(f'mkdir "Comp/{compName}/After"')
+        os.system(f'code "Comp/{compName}"')
 
     def createProblem(self, compName, problem):
         if not os.path.exists (f"Comp/{compName}/{problem}.cpp"):
@@ -74,13 +79,12 @@ class ComptetionTool:
         os.system("git push RainbowCodes")
 
 if __name__ == "__main__":
-    print("Welcome to use Problem Commit Tool")
+    print("Welcome to use Competitive Programming problems archive tool")
 
     status = "Normal"
 
     problemCommitter = ProblemCommitTool()
     compCommitter = ComptetionTool()
-    calculator = CalculateTool()
 
     while True:
         print(f"({status})")
@@ -93,12 +97,10 @@ if __name__ == "__main__":
             exit ()
 
         if status == "Normal":
-            if command == "clear": # clear the problem
-                problemCommitter.clear()
-            elif command in problemTypeIndex.keys(): # commit this problem
-                problemCommitter.commit(inputArgs[0], inputArgs[1])
-            elif command == "calc":
-                print(calculator.calc(inputArgs[1:]))
+            if command in problemTypeIndex.keys(): # commit this problem
+                problemId, problemPath = problemCommitter.getProblem ()
+                if problemId != "": 
+                    problemCommitter.commit(inputArgs[0], problemId, problemPath)
             elif command == "comp":
                 compName = time.strftime("%y-%m-%d", time.localtime()) + " " + inputArgs[1]
                 status = compName
