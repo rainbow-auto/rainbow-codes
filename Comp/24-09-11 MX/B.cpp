@@ -188,6 +188,9 @@ int main () {
 	// lookMem	
 	// TimeST = clock ();
 
+	freopen ("delete.in", "r", stdin);
+	freopen ("delete.out", "w", stdout);
+
 	init (4000);
 
 	std::cin >> n;
