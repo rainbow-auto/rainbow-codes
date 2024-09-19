@@ -32,6 +32,7 @@ class ProblemCommitTool:
         os.system("git add .")
         os.system("git commit -m " + str(problemId))
         os.system("git push RainbowCodes")
+        os.system("git push RainbowCodes-Github")
     
     def move(self, prefix, problemId):
         filePath = prefix + str(problemId) + ".cpp"
