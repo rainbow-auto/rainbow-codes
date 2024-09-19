@@ -1,0 +1,1 @@
+{"name":"Local: A","url":"d:\\OI\\Code\\Comp\\24-09-18 CF\\A.cpp","tests":[{"id":1726660222933,"input":"3\n356\n114\n514\n","output":"-wxr-xrw-\n--x--xr--\nr-x--xr--\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"A.cpp","group":"local","local":true}
