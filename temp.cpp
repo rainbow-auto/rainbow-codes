@@ -18,12 +18,12 @@ using f64 = long double;
 int TimeST;
 bool MemST;
 
-inline void solve () {
+void solve() {
 	
 }
 
 bool MemED;
-int main () {
+int main() {
 	fastread
 	// lookMem	
 	// TimeST = clock ();
@@ -33,7 +33,7 @@ int main () {
 	// int _; std::cin >> _;
 	
 	while (_--) {
-		solve ();
+		solve();
 	}
 
 	return 0;
