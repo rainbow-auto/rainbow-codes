@@ -58,12 +58,12 @@ class CalculateTool:
 class ComptetionTool:
     def createComp (self, compName):
         os.system(f'mkdir "Comp/{compName}"')
-        os.system(f'sublime_text "Comp/{compName}"')
+        os.system(f'code "Comp/{compName}"')
 
     def createProblem(self, compName, problem):
         if not os.path.exists (f"Comp/{compName}/{problem}.cpp"):
             shutil.copy("model.cpp", f"Comp/{compName}/{problem}.cpp")
-        os.system(f'sublime_text "Comp/{compName}/{problem}.cpp"')
+        os.system(f'code "Comp/{compName}/{problem}.cpp"')
 
     def openCompFolder(self, compName):
         os.system(f'explorer "Comp\\{compName}"')
