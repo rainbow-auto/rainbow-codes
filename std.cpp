@@ -1,100 +1,40 @@
-#include <cstdio>
-#include <cstring>
-#include <iostream>
-#include <algorithm>
-
+#include<cstdio>
+#include<cstring>
+#include<algorithm>
+#include<iostream>
+#include<vector>
 using namespace std;
-
-typedef long long LL;
-
-const int maxn = 1000005;
-const int inf = 0x3f3f3f3f;
-const int mod = 1000000007;
-
-int n, A, B;
-int fac[maxn], inv[maxn];
-int c[maxn], w[maxn], minci[maxn];
-int Gs[maxn];
-
-inline int pow(int a, int b)
+typedef long long ll;
+const int maxn=20;
+const int mod=2520;
+int T,cur,a[mod+1];
+ll l,r,f[20][mod+1][50];
+vector<int>dim;
+int gcd(int x,int y){return x%y?gcd(y,x%y):y;}
+int lcm_(int x,int y){if(!y)return x;return x/gcd(x,y)*y;}
+ll dfs(int x,int mode,int lcm,bool op)
 {
-	int ans = 1;
-	for(; b; b >>= 1, a = (LL) a * a % mod)
-		if(b & 1)
-			ans = (LL) ans * a % mod;
-	return ans;
+    if(!x)return mode%lcm==0?1:0;
+    if(!op&&f[x][mode][a[lcm]])return f[x][mode][a[lcm]];
+    int maxx=op?dim[x]:9;ll ret=0;
+    for(int i=0;i<=maxx;i++)ret+=dfs(x-1,(mode*10+i)%mod,lcm_(lcm,i),op&(i==maxx));
+    if(!op)f[x][mode][a[lcm]]=ret;
+    return ret;
+}
+ll solve(ll x)
+{
+    dim.clear();
+    dim.push_back(-1);
+    ll t=x;
+    while(t)dim.push_back(t%10),t/=10;
+    return dfs(dim.size()-1,0,1,1);
 }
 
-inline int C(int n, int m)
+main()
 {
-	if(!n)
-		return 1;
-	if(m < n)
-		return 0;
-	return (LL) fac[m] * (LL) inv[m - n] % mod * (LL) inv[n] % mod;
-}
+    for(int i=1;i<=mod;i++)if(mod%i==0)a[i]=++cur;
+    scanf("%d",&T);
 
-int main()
-{
-	scanf("%d%d%d", &n, &A, &B);
-	memset(minci, 0x3f, sizeof(minci));
-	for(int i = 1; i <= n; ++i)
-	{
-		scanf("%d%d", &c[i], &w[i]);
-		minci[c[i]] = min(minci[c[i]], w[i]);
-	}
-	int minn = 0, minnn = 0;
-	for(int i = 1; i <= n; ++i)
-	{
-		if(minci[i] < minci[minn])
-		{
-			minnn = minn;
-			minn = i;
-		}
-		else if(minci[i] < minci[minnn])
-			minnn = i;
-	}
-	int gss = 0;
-	for(int i = 1; i <= n; ++i)
-	{
-		if(w[i] + minci[c[i]] <= A)
-			w[i] = minci[c[i]];
-		if(c[i] == minn && minci[minnn] + w[i] <= B)
-		{
-			Gs[c[i]]++;
-			gss++;
-		}
-		if(c[i] != minn && minci[minn] + w[i] <= B)
-		{
-			Gs[c[i]]++;
-			gss++;
-		}
-	}
-
-    std::cerr << "p1: " << minn << "\n";
-    std::cerr << "p2: " << minnn << "\n";
-
-    std::cerr << "w1: " << minci[minn] << "\n";
-    std::cerr << "w2: " << minci[minnn] << "\n";
-
-    for (int i = 1; i <= n; i++) std::cerr << Gs[i] << " ";
-    std::cerr << "\n";
-
-	int ans = 1;
-	fac[0] = 1;
-	for(int i = 1; i <= n; ++i)
-		fac[i] = (LL) i * fac[i - 1] % mod;
-	inv[n] = pow(fac[n], mod - 2);
-	for(int i = n - 1; ~i; --i)
-		inv[i] = (LL) inv[i + 1] * (i + 1) % mod;
-	for(int i = 1; i <= n; ++i)
-	{
-		if(Gs[i])
-		{
-			ans = (LL) ans * (LL) C(Gs[i], gss) % mod;
-			gss -= Gs[i];
-		}
-	}
-	printf("%d\n", ans);
-	return 0;
+    while(T--)scanf("%lld%lld",&l,&r),printf("%lld\n",solve(r)-solve(l-1));
+    return 0;
 }
