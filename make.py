@@ -58,6 +58,7 @@ class CalculateTool:
 class ComptetionTool:
     def createComp (self, compName):
         os.system(f'mkdir "Comp/{compName}"')
+        os.system(f'mkdir "Comp/{compName}/After"')
         os.system(f'code "Comp/{compName}"')
 
     def createProblem(self, compName, problem):
