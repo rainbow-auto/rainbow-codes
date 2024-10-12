@@ -19,8 +19,26 @@ int TimeST;
 bool MemST;
 // #define MultiTask lovely_fairytale
 
+const int maxn = 23;
+
+int n, k;
+int a[maxn];
+
+void dfs(int now) {
+	if (now == n + 1) {
+		rep (i, 1, n) std::cout << a[i] << " \n"[i == n];
+		return;
+	}
+
+	rep (i, 1, k) {
+		a[now] = i;
+		dfs(now + 1);
+	}
+}
+
 void solve() {
-	
+	std::cin >> n >> k;
+	dfs(1);
 }
 
 bool MemED;

@@ -17,7 +17,7 @@ using f64 = long double;
 #define lookTime std::cerr << (double) (clock () - TimeST) / CLOCKS_PER_SEC << "s used\n";
 int TimeST;
 bool MemST;
-#define MultiTask lovely_fairytale
+// #define MultiTask lovely_fairytale
 
 void solve() {
 	
