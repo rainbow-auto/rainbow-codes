@@ -1,1 +1,1 @@
-{"name":"Local: temp","url":"d:\\OI\\Code\\temp.cpp","tests":[{"id":1729133125689,"input":"5\ncolombia\nabcdba\nneversayeven\nneveroddoreven\nlistentothesilence","output":"c\nba\neven\nneveroddoreven\nsil"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"temp.cpp","group":"local","local":true}
+{"name":"Local: temp","url":"d:\\OI\\Code\\temp.cpp","tests":[{"id":1729147677456,"input":"3\na\naa\naaa","output":"6\n3\n1"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"temp.cpp","group":"local","local":true}
