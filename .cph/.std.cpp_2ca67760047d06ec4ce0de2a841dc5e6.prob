@@ -1,1 +1,1 @@
-{"name":"Local: std","url":"d:\\OI\\Code\\std.cpp","tests":[{"id":1728306143281,"input":"11 4\n11 4 5 1 4 1 9 1 9 8 10\n5\n1 4\n1 9\n1 9\n8 10\n8 10","output":"2\n12\n12\n1\n1"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"std.cpp","group":"local","local":true}
+{"name":"Local: std","url":"d:\\OI\\Code\\std.cpp","tests":[{"id":1729222738549,"input":"7 7\n#######\n#..X###\n#..##O#\n#....E#\n#....E#\n#.....#\n#######\n0 0","output":"10"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"std.cpp","group":"local","local":true}
