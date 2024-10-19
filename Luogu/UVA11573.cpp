@@ -17,18 +17,83 @@ using f64 = long double;
 #define lookTime std::cerr << (double) (clock () - TimeST) / CLOCKS_PER_SEC << "s used\n";
 int TimeST;
 bool MemST;
-#define MultiTask lovely_fairytale
+// #define MultiTask lovely_fairytale
+
+const int maxn = 1005;
+const int dx[] = { -1, -1, 0, 1, 1, 1, 0, -1 };
+const int dy[] = { 0, 1, 1, 1, 0, -1, -1, -1 };
+
+int n, m;
+int p[maxn][maxn];
+
+int dis[maxn][maxn];
+bool vis[maxn][maxn];
+
+inline int bfs(std::pair<int, int> st, std::pair<int, int> ed) {
+	std::memset(dis, 0x3f, sizeof dis);
+	std::memset(vis, 0, sizeof vis);
+	dis[st.first][st.second] = 0;
+
+	std::deque<std::pair<int, int>> q;
+	q.push_front(st);
+
+	auto push_front = [&](int x, int y, int d) {
+		if (x < 1 or x > n) return;
+		if (y < 1 or y > m) return;
+		if (dis[x][y] < d) return;
+		dis[x][y] = d;
+		q.push_front(std::make_pair(x, y));
+	};
+
+	auto push_back = [&](int x, int y, int d) {
+		if (x < 1 or x > n) return;
+		if (y < 1 or y > m) return;
+		if (dis[x][y] < d) return;
+		dis[x][y] = d;
+		q.push_back(std::make_pair(x, y));
+	};
+
+	while (not q.empty()) {
+		auto _ = q.front(); q.pop_front();
+		int x, y; std::tie(x, y) = _;
+
+		if (_ == ed) return dis[x][y];
+		if (vis[x][y]) continue;
+		vis[x][y] = true;
+
+		push_front(x + dx[p[x][y]], y + dy[p[x][y]], dis[x][y]);
+
+		rep (i, 0, 7) {
+			if (i == p[x][y]) continue;
+			int nx = x + dx[i];
+			int ny = y + dy[i];
+			push_back(nx, ny, dis[x][y] + 1);
+		}
+	}
+
+	return dis[ed.first][ed.second];
+}
 
 void solve() {
-	i64 n, k;
-	std::cin >> n >> k;
+	std::cin >> n >> m;
 
-	if (k == 0) return std::cout << 1 << "\n", void(0);
+	rep (i, 1, n) {
+		rep (j, 1, m) {
+			char ch; std::cin >> ch;
+			p[i][j] = ch - '0';
+		}
+	}
 
-	i64 l = n / (k + 1);
-	i64 r = n / k;
+	int q; std::cin >> q;
 
-	std::cout << r - l << "\n";
+	while (q--) {
+		std::pair<int, int> st;
+		std::cin >> st.first >> st.second;
+		std::pair<int, int> ed;
+		std::cin >> ed.first >> ed.second;
+		
+		std::cout << bfs(st, ed) << "\n";
+	}
 }
 
 bool MemED;
