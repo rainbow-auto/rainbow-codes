@@ -1,0 +1,1 @@
+{"name":"Local: C","url":"d:\\OI\\Code\\Comp\\24-10-20 MX\\C.cpp","tests":[{"id":1729472452297,"input":"5 3 4 2 2 3\n1 0 0 1 1\n2 1 5\n1 3 3\n2 1 5","output":"cont\ntetris"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"C.cpp","group":"local","local":true}
