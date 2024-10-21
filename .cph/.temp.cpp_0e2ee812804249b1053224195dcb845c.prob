@@ -1,1 +1,1 @@
-{"name":"Local: temp","url":"d:\\OI\\Code\\temp.cpp","tests":[{"id":1729477529828,"input":"5","output":"2 3\n3 1\n5 1"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"temp.cpp","group":"local","local":true}
+{"name":"Local: temp","url":"d:\\OI\\Code\\temp.cpp","tests":[{"id":1729479495832,"input":"2 17\n14 17","output":"2,3 are closest, 7,11 are most distant.\nThere are no adjacent primes."}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"temp.cpp","group":"local","local":true}

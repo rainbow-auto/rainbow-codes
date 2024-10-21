@@ -1,0 +1,1 @@
+{"name":"Local: A","url":"d:\\OI\\Code\\Comp\\24-10-21 pjudge\\A.cpp","tests":[{"id":1729494527002,"input":"3\n97 79 7\n20 2 21","output":"20"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"A.cpp","group":"local","local":true}
