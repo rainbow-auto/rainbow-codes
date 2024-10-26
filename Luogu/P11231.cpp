@@ -19,17 +19,32 @@ int TimeST;
 bool MemST;
 // #define MultiTask lovely_fairytale
 
+const int maxn = 1000005;
+
+int n;
+int t[maxn];
+
 void solve() {
-	std::system("B_gen.exe > B.in")
-
-	int st = clock();
-	std::system("B.exe < B.in > B.out");
-	int ed = clock();
-
-	db << double (ed - st) / CLOCKS_PER_SEC << "\n";
+	int n; std::cin >> n;
 	
-	std::system("B1.exe < B.in > B1.out");
-	std::system("fc B.out B1.out");	
+	int mx = 0;
+	rep (i, 1, n) {
+		int x; std::cin >> x;
+		t[x] ++; 
+		mx = std::max(mx, x);
+	}
+
+	int pre = 0;
+	rep (i, 1, mx) {
+		if (t[i] <= pre) t[i] = 0;
+		else t[i] -= pre;
+		pre += t[i];
+	}
+
+	i64 ans = 0;
+	rep (i, 1, mx) ans += t[i];
+
+	std::cout << ans << "\n";
 }
 
 bool MemED;
