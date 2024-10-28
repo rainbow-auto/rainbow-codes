@@ -1,0 +1,1 @@
+{"name":"Local: C","url":"d:\\OI\\Code\\Comp\\24-10-26 CSP-VP\\C.cpp","tests":[{"id":1729990633515,"input":"3\n3\n1 2 1\n4\n1 2 3 4\n8\n3 5 2 5 1 2 1 4","output":"1\n0\n8"},{"id":1729992758153,"input":"1\n15\n5 3 7 2 4 13 11 6 5 5 3 5 12 8 13","output":"18"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"C.cpp","group":"local","local":true}
