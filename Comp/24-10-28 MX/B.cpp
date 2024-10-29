@@ -35,30 +35,32 @@ struct List {
 
 	inline void clear() {
 		rep (i, 1, tot) a[i] = Node { 0, 0, 0 };
+		rep (i, 1, n) pos[i] = 0;
 		tot = 0;
 		head = 0, tail = n + 1;
+		siz = 0;
 	}
+
+	int siz;
 
 	inline void ins(int val) {
 		int lst = tot;
 		a[++tot] = Node { lst, tail, val };
+		a[lst].nxt = tot;
 		pos[val] = tot;
+		siz++;
 	}
 
 	int mid;
-	int midL, midR;
 	inline void initMid() {
-		mid = 0;
+		mid = head;
 		
-		int cur = 0;
-		do {
+		int cur = -1;
+		while (mid != tail) {
 			cur++;
-			if (cur == ((tot + 1) >> 1)) break;
+			if (cur == ((siz + 1) >> 1)) break;
 			mid = a[mid].nxt;
-		} while (mid);
-
-		midL = cur - 1;
-		midR = tot - cur;
+		}
 	}
 
 	inline int getMid() { return a[mid].val; }
@@ -68,25 +70,44 @@ struct List {
 		a[a[p].pre].nxt = a[p].nxt;
 		a[a[p].nxt].pre = a[p].pre;
 		
+		siz--;
+
 		// adjust mid
-		
-	}
+		if (siz & 1) {
+			if (a[p].val <= a[mid].val) mid = a[mid].nxt;
+		} else {
+			if (a[p].val >= a[mid].val) mid = a[mid].pre;
+		}
+	}	
 } p;
 
 int pos[maxn];
 
 void solve() {
+	std::freopen("book.in", "r", stdin);
+	std::freopen("book.out", "w", stdout);
+
 	std::cin >> n;
 	rep (i, 1, n) std::cin >> a[i];
 
 	rep (i, 1, n) pos[a[i]] = i;
 
+	i64 ans = 0;
+
 	rep (l, 1, n) {
 		p.clear();
 		rep (v, 1, n) if (pos[v] >= l) p.ins(v);
+		p.initMid();
 
-		
+		per(r, n, l) {
+			if ((r - l + 1) & 1) {
+				ans += 1ll * l * r * p.getMid();
+			}
+			p.del(a[r]);
+		}
 	}
+
+	std::cout << ans << "\n";
 }
 
 bool MemED;
