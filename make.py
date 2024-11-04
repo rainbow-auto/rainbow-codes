@@ -115,6 +115,8 @@ if __name__ == "__main__":
                 os.system("code std.cpp")
             elif command == "temp":
                 os.system("code temp.cpp")
+            elif command == "open":
+                os.system("code .")
             else:
                 print("Error: command not found")
         else:
