@@ -14,7 +14,7 @@ using f64 = long double;
 #define db std::cerr
 
 #define lookMem std::cerr << abs (&MemST - &MemED) / 1024.0 / 1024.0 << "MB defined\n";
-#define lookTime std::cerr << (double) (clock () - TimeST) / CLOCKS_PER_SEC << "s used\n";
+#define lookTime std::cerr << (double) clock() / CLOCKS_PER_SEC << "s used\n";
 int TimeST;
 bool MemST;
 // #define MultiTask lovely_fairytale
@@ -27,7 +27,6 @@ bool MemED;
 int main() {
 	fastread
 	// lookMem	
-	// TimeST = clock ();
 
 #ifndef MultiTask
 	int _ = 1;

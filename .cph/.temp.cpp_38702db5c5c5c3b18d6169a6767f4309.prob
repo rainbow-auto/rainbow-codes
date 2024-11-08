@@ -1,0 +1,1 @@
+{"name":"Local: temp","url":"/media/rainbow-auto/Work/OI/Code/temp.cpp","tests":[{"id":1731067012385,"input":"3\n2 -1 1 1\n4 1 -1 5\n1 1 1 0","output":"x1=1.00\nx2=0.00\nx3=-1.00"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/media/rainbow-auto/Work/OI/Code/temp.cpp","group":"local","local":true}
