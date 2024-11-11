@@ -1,0 +1,1 @@
+{"name":"Local: D","url":"/media/rainbow-auto/Work/OI/Code/Comp/24-11-10 MX/D.cpp","tests":[{"id":1731227392233,"input":"6 3\n8 6 2 3 5 6\n2 5 1 3\n1 1 3 6\n3 5 1 2","output":"7\n14\n0"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/media/rainbow-auto/Work/OI/Code/Comp/24-11-10 MX/D.cpp","group":"local","local":true}
