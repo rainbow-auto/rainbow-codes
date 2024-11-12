@@ -1,1 +1,1 @@
-{"name":"Local: temp","url":"/media/rainbow-auto/Work/OI/Code/temp.cpp","tests":[{"id":1731386138682,"input":"3\n2\n1 0 1\n-1 1 0","output":"2"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/media/rainbow-auto/Work/OI/Code/temp.cpp","group":"local","local":true}
+{"name":"Local: temp","url":"/media/rainbow-auto/Work/OI/Code/temp.cpp","tests":[{"id":1731412159132,"input":"3\n1\n1 2 1\n1 3 3","output":"2"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/media/rainbow-auto/Work/OI/Code/temp.cpp","group":"local","local":true}
