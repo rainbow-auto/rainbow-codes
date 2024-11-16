@@ -1,0 +1,1 @@
+{"name":"Local: F","url":"/media/rainbow-auto/Work/OI/Code/Comp/24-11-15 luogu/F.cpp","tests":[{"id":1731669629943,"input":"5 6\nwater 2 4\nwater 3 5\nrise 1 3 2\nwater 1 5 \nrise 1 5 1\nrise 1 5 1","output":"1\n5\n0"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/media/rainbow-auto/Work/OI/Code/Comp/24-11-15 luogu/F.cpp","group":"local","local":true}
