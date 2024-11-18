@@ -20,19 +20,22 @@ bool MemST;
 // #define MultiTask lovely_fairytale
 
 const int mod = 998244353;
+const int maxn = 200005;
 
 int n, k;
 int a[maxn];
 
-struct Tree {
+struct FenwickTree {
 	int tr[maxn];
 	inline int lowbit(int x) { return x & (-x); }
 
 	inline void mdf(int pos, int x) {
-		for (int i = pos; i <= n; i += lowbit(i)) (tr[i] += x) %= mod;
+		for (int i = pos; i <= n; i += lowbit(i)) (((tr[i] += x) %= mod) += mod) %= mod;
 	}
 
 	inline int qry(int pos) {
+		if (pos <= 0) return 0;
+		int res = 0;
 		for (int i = pos; i; i -= lowbit(i)) (res += tr[i]) %= mod;
 		return res;
 	}
@@ -43,25 +46,46 @@ struct Tree {
 	}
 
 	inline void clr() { std::memset(tr, 0, sizeof tr); }
+} tr;
+
+inline i64 ksm(i64 a, i64 b) {
+	i64 res = 1;
+	for (; b; b >>= 1, (a *= a) %= mod) if (b & 1) (res *= a) %= mod;
+	return res;
 }
 
-int pre[maxn], suf[maxn];
+inline i64 inv(i64 x) { return ksm(x, mod - 2); }
+
+inline i64 choose2(i64 x) { return x * (x - 1) % mod * inv(2) % mod; }
 
 void solve() {
 	std::cin >> n >> k;
 	rep (i, 1, n) std::cin >> a[i];
 
-	i64 ans = 0;
-
-	rep (i, 1, k - 1) tr.ins(a[i]);
-	rep (i, k, n) {
-		pre[i] = pre[i - 1] + tr.qry(a[i] + 1);
+	i64 tot = 0;
+	rep (i, 1, n) {
+		(tot += tr.qry(a[i] + 1, n)) %= mod;
+		tr.mdf(a[i], 1);
 	}
 
-	tr.clr();
+	i64 cnt = choose2(k) * inv(2) % mod;
 
-	per (i, n, n - k + 2) tr.ins(a[i]);
-	per (i, n - k + 1, 1)
+	tr.clr();
+	i64 cur = 0;
+	rep (i, 1, k) {
+		(cur += tr.qry(a[i] + 1, n)) %= mod;
+		tr.mdf(a[i], 1);
+	}
+
+	i64 ans = 0;
+	rep (i, 1, n - k + 1) {
+		(ans += (((tot - cur) % mod + mod) % mod + cnt) % mod * inv(n - k + 1) % mod) %= mod;
+		(((cur -= tr.qry(a[i] - 1)) %= mod) += mod) %= mod; tr.mdf(a[i], -1);
+		if (i + k > n) break;
+		(cur += tr.qry(a[i + k] + 1, n)) %= mod; tr.mdf(a[i + k], 1);
+	} 
+
+	std::cout << ans << "\n";
 }
 
 bool MemED;
