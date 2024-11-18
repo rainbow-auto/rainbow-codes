@@ -2,7 +2,7 @@
 // #pragma GCC optimize(2)
 
 using i64 = long long;
-using f64 = long double;
+using f64 = double;
 
 #define fastread std::ios::sync_with_stdio (false); std::cin.tie(nullptr);
 

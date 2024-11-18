@@ -52,7 +52,7 @@ inline void mdf(int pos, int c) {
 			cur = Range { pre.l, cur.r, c };
 			s.insert(cur);
 			flg = true;
-		} 
+		}
 	}
 
 	it = std::prev(s.upper_bound(Range { pos, 0, 0 }));
