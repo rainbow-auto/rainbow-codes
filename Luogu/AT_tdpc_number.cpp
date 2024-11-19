@@ -2,7 +2,7 @@
 // #pragma GCC optimize(2)
 
 using i64 = long long;
-using f64 = long double;
+using f64 = double;
 
 #define fastread std::ios::sync_with_stdio (false); std::cin.tie(nullptr);
 
@@ -19,50 +19,36 @@ int TimeST;
 bool MemST;
 // #define MultiTask lovely_fairytale
 
-const int maxn = 100005;
+const int maxn = 10005;
+const int maxd = 105;
 
-int n;
+const int mod = 1e9 + 7;
 
-struct Edge {
-	int u, v;
-	int pre;
-} es[maxn << 1];
+int n, d;
+int a[maxn];
 
-int last[maxn], cnt;
+int mem[maxn][maxd][2];
+int dfs(int now, int rst, bool lim) {
+	if (now > n) return rst == 0;
 
-inline void addEdge(int u, int v) {
-	es[++cnt] = Edge { u, v, last[u] };
-	last[u] = cnt;
-}
-
-int ans;
-
-int son[maxn];
-int dep[maxn];
-void dfs(int now, int fa) {
-	son[now] = 0;
-	int sum = 0;
-	for (int i = last[now]; i; i = es[i].pre) {
-		int t = es[i].v;
-		if (t == fa) continue;
-		dep[t] = dep[now] + 1;
-		dfs(t, now);
-		son[now]++;
-		sum += son[t] + 1;
+	int &res = mem[now][rst][lim];
+	if (~res) return res;
+	res = 0;
+	int mx = lim ? a[now] : 9;
+	rep (i, 0, mx) {
+		(res += dfs(now + 1, (rst + i) % d, lim and i == mx)) %= mod;
 	}
-	ans = std::max(ans, sum + std::min(dep[now], 2));
+	return res;
 }
 
 void solve() {
-	std::cin >> n;
-	rep (i, 1, n - 1) {
-		int u, v; std::cin >> u >> v;
-		addEdge(u, v); addEdge(v, u);
-	}
+	std::cin >> d;
+	
+	std::string s; std::cin >> s; n = s.length();
+	rep (i, 1, n) a[i] = s[i - 1] - '0';
 
-	ans = 0;
-	dfs(1, -1);
-	std::cout << ans << "\n";
+	std::memset(mem, -1, sizeof mem);
+	std::cout << (((dfs(1, 0, true) - 1) % mod) + mod) % mod << "\n";
 }
 
 bool MemED;
