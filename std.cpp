@@ -1,61 +1,82 @@
-#include <bits/stdc++.h>
-// #pragma GCC optimize(2)
+#include<bits/stdc++.h>
+using namespace std;
 
-using i64 = long long;
-using f64 = long double;
-
-#define fastread std::ios::sync_with_stdio (false); std::cin.tie(nullptr);
-
-#define rep(QWQ, qwq, qaq) for (i64 QWQ = (qwq); (QWQ) <= (qaq); QWQ++)
-#define per(QWQ, qwq, qaq) for (i64 QWQ = (qwq); (QWQ) >= (qaq); QWQ--)
-
-#define dbg(x) std::cerr << (#x) << " : " << x << "\n";
-#define dbendl std::cerr << "\n"; 
-#define db std::cerr
-
-#define lookMem std::cerr << abs (&MemST - &MemED) / 1024.0 / 1024.0 << "MB defined\n";
-#define lookTime std::cerr << (double) (clock () - TimeST) / CLOCKS_PER_SEC << "s used\n";
-int TimeST;
-bool MemST;
-// #define MultiTask lovely_fairytale
-
-const int maxn = 200005;
-
-int n, q;
-struct Node {
-	i64 x, y;
-	int id;
-	
-	friend bool operator < (const Node u, const Node v) {
-		return u.x < v.x;
-	}
-};
-
-void solve() {
-    std::set<Node> s;
-    s.insert(Node { 1, 3, 1 });
-    s.insert(Node { 2, 7, 1 });
-
-    auto it = s.find(Node { 1, 3, 1 });
-
-    std::cout << std::next(it) -> x << " " << std::next(it) -> y << "\n";
+int read(){
+	int x=0,f=1;char ch=getchar();
+	while(ch<'0'||ch>'9'){if(ch=='-')f=-1;ch=getchar();}
+	while(ch>='0'&&ch<='9'){x=x*10+ch-48;ch=getchar();}
+	return x*f;
 }
 
-bool MemED;
-int main() {
-	fastread
-	// lookMem	
-	// TimeST = clock ();
+int n,m;
+string s[102];
 
-#ifndef MultiTask
-	int _ = 1;
-#else
-	int _; std::cin >> _;
-#endif
-	
-	while (_--) {
-		solve();
+void p0(){
+	sort(s[1].begin(),s[1].end());
+	sort(s[2].begin(),s[2].end());
+	reverse(s[2].begin(),s[2].end());
+	if(s[1]<s[2])puts("Yes");
+	else puts("No");
+}
+
+void p1(){
+	bool flg=1;
+	for(int i=1;i<=n;i++){
+		sort(s[i].begin(),s[i].end());
 	}
+	for(int i=2;i<=n;i++){
+		vector<string>cur;
+		for(int j=0;j<m;j++){
+			string t=s[i];
+			bool ab=1;
+			for(int k=0;k<j;k++){
+				if(t[k]!=s[i-1][k]){
+					int pt=k;
+					while(pt<m&&t[pt]!=s[i-1][k])pt++;
+					if(pt<m&&t[pt]==s[i-1][k])swap(t[pt],t[k]);
+					else{
+						ab=0;break;
+					}
+				}
+			}
+			if(!ab)continue;
+			sort(t.begin()+j,t.end());
+			if(t[j]<=s[i-1][j]){
+				int pt=j;
+				while(pt<m&&t[pt]<=s[i-1][j])pt++;
+				if(pt<m&&t[pt]>s[i-1][j]){
+					swap(t[pt],t[j]);
+				}else{
+					continue;
+				}
+			}
+			sort(t.begin()+j+1,t.end());
+			cur.push_back(t);
+		}
+		sort(cur.begin(),cur.end());
+		if(!cur.empty())s[i]=cur[0];
+		else{
+			flg=0;
+			break;
+		}
+	}
+	
+	if(flg)puts("Yes");
+	else puts("No");
+}
 
+void solve(){
+	n=read(),m=read();
+	for(int i=1;i<=n;i++){
+		cin>>s[i];
+	}
+	if(n==1)puts("Yes");
+	else if(n==2)p0(); 
+	else p1();
+}
+
+int main(){
+	int t=read();
+	while(t--)solve();
 	return 0;
-}
+} 

@@ -19,19 +19,27 @@ int TimeST;
 bool MemST;
 // #define MultiTask lovely_fairytale
 
+int id = 0;
+
 void solve() {
-    std::system("temp.exe < detect3.in > detect.out");
-    std::system("fc detect.out detect3.ans");
+	++id;
+	std::cout << "#" << id << "\n";
+	std::system("./gen > dict.in");
+	// std::system("./temp < dict.in > ctldict.out");
+	std::system("./std < dict.in > ctldict.out");
+    std::system("./hyt < dict.in > hytdict.out");
+    if (std::system("diff ctldict.out hytdict.out")) { std::cout << "WA\n"; exit(0); }
+	std::cout << "AC\n";
 }
 
 bool MemED;
 int main() {
-	fastread
+	// fastread
 	// lookMem	
 	// TimeST = clock ();
 
 #ifndef MultiTask
-	int _ = 1;
+	int _ = 1000000;
 #else
 	int _; std::cin >> _;
 #endif
