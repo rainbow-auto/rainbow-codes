@@ -1,1 +1,1 @@
-{"name":"Local: temp","url":"/mnt/work/OI/Code/temp.cpp","tests":[{"id":1737164504788,"input":"1 2\n1 2\n1 2 1","output":"1 4 5 2"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/mnt/work/OI/Code/temp.cpp","group":"local","local":true}
+{"name":"Local: temp","url":"/mnt/work/OI/Code/temp.cpp","tests":[{"id":1738054348992,"input":"6\n5 6\n6 1\n6 2\n2 3\n2 4\n3\n2 5 2\n1 4 1\n1 6 3","output":"3\n4\n3"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/mnt/work/OI/Code/temp.cpp","group":"local","local":true}
