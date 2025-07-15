@@ -18,6 +18,7 @@ using f64 = double;
 int TimeST;
 bool MemST;
 // #define MultiTask lovely_fairytale
+#define file(x) std::freopen(x".in", "r", stdin); std::freopen(x".out", "w", stdout);
 
 void solve() {
 	
