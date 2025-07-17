@@ -1,0 +1,1 @@
+{"name":"Local: bulb","url":"/Users/ctlqwq/Documents/OI/Code/Comp/25-07-17 MX/bulb/bulb.cpp","tests":[{"id":1752720117983,"input":"3 5 2\n1 2 1\n1\n2\n1\n2\n2\n","output":"2\n1\n1\n0\n1\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/ctlqwq/Documents/OI/Code/Comp/25-07-17 MX/bulb/bulb.cpp","group":"local","local":true}
