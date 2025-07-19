@@ -138,7 +138,7 @@ int main() {
 	fastread
 	// lookMem	
 
-    file("color")
+    // file("color")
 
 #ifndef MultiTask
 	int _ = 1;

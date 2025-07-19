@@ -139,8 +139,6 @@ int main() {
 	fastread
 	// lookMem	
 
-    file("walk")
-
 #ifndef MultiTask
 	int _ = 1;
 #else
