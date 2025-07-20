@@ -1,0 +1,1 @@
+{"name":"Local: B","url":"/Users/ctlqwq/Documents/OI/Code/Comp/25-07-19 ABC415/B.cpp","tests":[{"id":1752926753010,"input":".#.##..##.#.###....#\n","output":"2,4\n5,8\n9,11\n13,14\n15,20\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/ctlqwq/Documents/OI/Code/Comp/25-07-19 ABC415/B.cpp","group":"local","local":true}
