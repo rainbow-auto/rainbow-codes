@@ -1,0 +1,1 @@
+{"name":"Local: tree","url":"/Users/ctlqwq/Documents/OI/Code/Comp/25-07-21 MX/tree/tree.cpp","tests":[{"id":1753056500189,"input":"7\n-1 -1 -1 1 1 1 0\n1 4\n2 5\n3 6\n4 7\n5 7\n6 7","output":"3\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/ctlqwq/Documents/OI/Code/Comp/25-07-21 MX/tree/tree.cpp","group":"local","local":true}

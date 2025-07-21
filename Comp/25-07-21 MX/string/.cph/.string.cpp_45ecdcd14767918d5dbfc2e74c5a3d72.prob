@@ -1,0 +1,1 @@
+{"name":"Local: string","url":"/Users/ctlqwq/Documents/OI/Code/Comp/25-07-21 MX/string/string.cpp","tests":[{"id":1753070878081,"input":"3\nbac\nabc\nacb","output":"4\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/ctlqwq/Documents/OI/Code/Comp/25-07-21 MX/string/string.cpp","group":"local","local":true}
