@@ -1,0 +1,1 @@
+{"name":"Local: A","url":"/Users/ctlqwq/Documents/OI/Code/Comp/25-07-26 ABC/A.cpp","tests":[{"id":1753531264296,"input":"10 6 8\nxoxxooooxo\n","output":"Yes\n"},{"id":1753531283765,"input":"9 6 8\nxoxxoxoox\n","output":"No\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/ctlqwq/Documents/OI/Code/Comp/25-07-26 ABC/A.cpp","group":"local","local":true}
