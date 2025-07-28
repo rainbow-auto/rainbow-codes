@@ -1,0 +1,1 @@
+{"name":"Local: sequence","url":"/Users/ctlqwq/Documents/OI/Code/Comp/25-07-27 MX/sequence/sequence.cpp","tests":[{"id":1753577274157,"input":"5\n-2 2\n-3 2\n-3 3\n2 3\n-2 1","output":"4\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/ctlqwq/Documents/OI/Code/Comp/25-07-27 MX/sequence/sequence.cpp","group":"local","local":true}
