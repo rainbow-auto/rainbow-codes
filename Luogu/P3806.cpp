@@ -1,32 +1,28 @@
-#include <iostream>
-#include <algorithm>
-#include <string>
-#include <vector>
-#include <list>
-#include <stack>
-#include <map>
-#include <set>
-#include <cstdio>
-#include <cstring>
-#include <cmath>
-#include <queue>
+#include <bits/stdc++.h>
+// #pragma GCC optimize(2)
 
-#define fastread ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-#define endl "\n"
+using i64 = long long;
+using f64 = double;
 
-using namespace std;
+#define fastread std::ios::sync_with_stdio (false); std::cin.tie(nullptr);
 
-const int maxn = 10005;
+#define rep(QWQ, qwq, qaq) for (i64 QWQ = (qwq); (QWQ) <= (qaq); QWQ++)
+#define per(QWQ, qwq, qaq) for (i64 QWQ = (qwq); (QWQ) >= (qaq); QWQ--)
 
-int n, m;
+#define dbg(x) std::cerr << (#x) << " : " << x << "\n";
+#define dbendl std::cerr << "\n"; 
+#define db std::cerr
 
-struct Query {
-	int k;
-	int ans;
-};
+#define lookMem std::cerr << abs (&MemST - &MemED) / 1024.0 / 1024.0 << "MB defined\n";
+#define lookTime std::cerr << (double) clock() / CLOCKS_PER_SEC << "s used\n";
+int TimeST;
+bool MemST;
+// #define MultiTask lovely_fairytale
+#define file(x) std::freopen(x".in", "r", stdin); std::freopen(x".out", "w", stdout);
 
-vector<Query> qs;
+constexpr int maxn = 1e4 + 5;
 
+int n;
 struct Edge {
 	int u, v;
 	int pre;
@@ -34,129 +30,143 @@ struct Edge {
 } es[maxn << 1];
 
 int last[maxn], cnt;
-
-inline void addEdge (int u, int v, int w) {
+inline void addEdge(int u, int v, int w) {
 	es[++cnt] = Edge { u, v, last[u], w };
 	last[u] = cnt;
 }
 
-int sum; // 不算removed的 (当前处理的) 点数
-bool removed[maxn];
+struct Query {
+	int k;
+	int id;
+};
 
-int root;
+std::vector<Query> qs;
+bool ans[maxn];
 
-int siz[maxn];
-int maxpart[maxn];
-void getRoot (int now, int fa) { // 找根 (重心)
+constexpr int maxd = 1e8 + 5;
+std::bitset<maxd> ex;
+
+std::bitset<maxn> rmv;
+
+int tot;
+int siz[maxn], mx[maxn];
+int rt;
+
+void get_rt(int now, int fa) {
 	siz[now] = 1;
-	maxpart[now] = 0;
+	mx[now] = 0;
 	for (int i = last[now]; i; i = es[i].pre) {
 		int t = es[i].v;
-		if (removed[t]) { continue; }
-		if (t == fa) { continue; }
-
-		getRoot (t, now);
+		if (t == fa) continue;
+		if (rmv[t]) continue;
+		get_rt(t, now);
 		siz[now] += siz[t];
-
-		maxpart[now] = max (maxpart[now], siz[t]);
+		mx[now] = std::max(mx[now], siz[t]);
 	}
-
-	maxpart[now] = max (maxpart[now], sum - siz[now]);
-	if (maxpart[root] > maxpart[now]) { root = now; }
+	mx[now] = std::max(mx[now], tot - siz[now]);
+	if (mx[now] < mx[rt]) rt = now;
 }
-
-int removeStack[maxn], rtot;
-int disStack[maxn], dtot;
 
 int dis[maxn];
-void getDis (int now, int fa) { // getDis (u) : 计算 u 为根的dis
-	disStack[++dtot] = dis[now];
+std::vector<int> dis_s;
+void get_dis(int now, int fa) {
+	dis_s.push_back(dis[now]);
 	for (int i = last[now]; i; i = es[i].pre) {
 		int t = es[i].v;
-
-		if (removed[t]) { continue; }
-		if (t == fa) { continue; }
+		if (t == fa) continue;
+		if (rmv[t]) continue;
 
 		dis[t] = dis[now] + es[i].w;
-		getDis (t, now);
+		get_dis(t, now);
 	}
 }
 
-const int maxv = 100000005;
-bool exist[maxv];
+std::vector<int> del;
 
-void solve (int now) {
-	exist[0] = true;
+void calc(int now) {
+	ex[0] = true;
 
 	for (int i = last[now]; i; i = es[i].pre) {
 		int t = es[i].v;
-		if (removed[t]) { continue; }
-				
-		dis[t] = es[i].w; // getdis 之前的初始化
-		getDis (t, now);
+		if (rmv[t]) continue;
+		dis[t] = es[i].w;
+		get_dis(t, now);
 
-		for (int j = 1; j <= dtot; j++) { // 枚举子树中的点
-			for (auto &q : qs) {
-				if (q.k - disStack[j] >= 0) { q.ans |= exist[q.k - disStack[j]]; }
+		for (auto d : dis_s) {
+			for (auto q : qs) {
+				if (q.k - d >= 0) ans[q.id] |= ex[q.k - d];
 			}
 		}
 
-		while (dtot) {
-			int top = disStack[dtot--];
-			exist[top] = true; // 标记
-			removeStack[++rtot] = top; // 方便以后删除 (不用memset 1e8 大小的数组)
+		for (auto d : dis_s) {
+			del.push_back(d);
+			ex[d] = true;
 		}
+		dis_s.clear();
 	}
 
-	// 删除exist
-	while (rtot) {
-		int top = removeStack[rtot--];
-		exist[top] = false;
-	}
+	for (auto d : del) ex[d] = false;
+	del.clear();
 }
 
-void divide (int now) { // 分治..
-	removed[now] = true;
-	solve (now);
-
+void divide(int now) {
+	rmv[now] = true;
+	calc(now);
+	
 	for (int i = last[now]; i; i = es[i].pre) {
 		int t = es[i].v;
-		if (removed[t]) { return; }
+		if (rmv[t]) continue;
+		
+		tot = siz[t];
+		mx[rt] = 0x3f3f3f3f;
+		get_rt(t, now);
+		get_rt(rt, now);
 
-		sum = siz[t];
-		maxpart[root] = 0x3f3f3f3f; // 确保换根
-		getRoot (t, now);
-		getRoot (root, now); // 实际上是在 getSize
-
-		divide (root);
+		divide(rt);
 	}
 }
 
-int main () {
-	fastread
+void solve() {
+	std::cin >> n;
+	int q; std::cin >> q;
 
-	cin >> n >> m;
-
-	for (int i = 1; i <= n - 1; i++) {
-		int u, v, w; cin >> u >> v >> w;
-		addEdge (u, v, w);
-		addEdge (v, u, w);
+	rep (i, 1, n - 1) {
+		int u, v; std::cin >> u >> v;
+		int w; std::cin >> w;
+		addEdge(u, v, w);
+		addEdge(v, u, w);
 	}
 
-	while (m --) {
-		int k; cin >> k;
-		qs.push_back ( Query { k, 0 } );
-	}	
+	rep (t, 1, q) {
+		int k; std::cin >> k;
+		qs.push_back(Query{k, t});
+	}
 
-	sum = n;
-	maxpart[root] = 0x3f3f3f3f;
-	getRoot (1, 0);
-	getRoot (root, 0); // 实际上是在 getSize
+	tot = n;
+	mx[rt] = 0x3f3f3f3f;
+	get_rt(1, 0);
+	get_rt(rt, 0);
 
-	divide (root);
+	divide(rt);
 
-	for (auto now : qs) {
-		cout << (now.ans ? "AYE" : "NAY") << endl;
+	rep (t, 1, q) std::cout << (ans[t] ? "AYE" : "NAY") << "\n";
+}
+
+bool MemED;
+int main() {
+	fastread
+	// lookMem	
+
+	file("P3806_7")
+
+#ifndef MultiTask
+	int _ = 1;
+#else
+	int _; std::cin >> _;
+#endif
+	
+	while (_--) {
+		solve();
 	}
 
 	return 0;

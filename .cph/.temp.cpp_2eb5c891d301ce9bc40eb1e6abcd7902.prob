@@ -1,1 +1,1 @@
-{"name":"Local: temp","url":"/Users/ctlqwq/Documents/OI/Code/temp.cpp","tests":[{"id":1754020290602,"input":"6 3\n1 2\n2 3\n4 5","output":"2\n2\n3"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/ctlqwq/Documents/OI/Code/temp.cpp","group":"local","local":true}
+{"name":"Local: temp","url":"/Users/ctlqwq/Documents/OI/Code/temp.cpp","tests":[{"id":1754123950422,"input":"2 1\n1 2 2\n2","output":"AYE"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/ctlqwq/Documents/OI/Code/temp.cpp","group":"local","local":true}
