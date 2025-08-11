@@ -1,157 +1,43 @@
-// 60
+#include<bits/stdc++.h>
 
-#include <iostream>
-#include <algorithm>
-#include <string>
-#include <vector>
-#include <list>
-#include <stack>
-#include <map>
-#include <set>
-#include <cstdio>
-#include <cstring>
-#include <cmath>
-#include <queue>
+using namespace std;
 
-#include <bitset>
+const int N = 5000 + 5;
 
-using i64 = long long;
-
-#define fastread std::ios::sync_with_stdio(false); std::cin.tie(0);
-
-const int maxn = 10005;
-
-int n, m;
-
-struct Query {
-	int k;
-	bool ans;
-};
-
-std::vector<Query> qs;
-
-struct Edge {
-	int u, v;
-	int pre;
-	int w;
-} es[maxn << 1];
-
-int last[maxn], cnt;
-
-inline void addEdge (int u, int v, int w) {
-	es[++cnt] = Edge { u, v, last[u], w };
-	last[u] = cnt;
+inline void checkmax(int &x, int y){
+	if(y > x) x = y;
 }
 
-int sum;
-std::bitset<maxn> removed;
-
-int root;
-int maxpart[maxn];
-int siz[maxn];
-
-void getRoot (int now, int fa) {
-	siz[now] = 1; 
-	for (int i = last[now]; i; i = es[i].pre) {
-		int t = es[i].v;
-		if (t == fa) { continue; }
-		if (removed[t])	{ continue; }
-
-		getRoot (t, now);
-		siz[now] += siz[t];
-		maxpart[now] = std::max (maxpart[now], siz[t]);
-	}
-	maxpart[now] = std::max (maxpart[now], sum - siz[now]);
-	if (maxpart[now] < maxpart[root]) { root = now; }
+inline void checkmin(int &x, int y){
+	if(y < x) x = y;
 }
 
-int disStack[maxn], dpos;
-int removeStack[maxn], rpos;
+int n = 0, m = 0, k = 0, a[N] = {}, f[N] = {};
+int g[N][N] = {}, ans = 0;
 
-int dis[maxn];
-void getDis (int now, int fa) {
-	disStack[++dpos] = dis[now];
-	for (int i = last[now]; i; i = es[i].pre) {
-		int t = es[i].v;
-		if (t == fa) { continue; }
-		if (removed[t]) { continue; }
-		
-		dis[t] = dis[now] + es[i].w;
-		getDis (t, now);
+inline void solve(){
+	scanf("%d", &n); m = k = 0;
+	for(int i = 1 ; i <= n ; i ++){
+		scanf("%d", &a[i]);
+		k = g[k][a[i]];
 	}
+	memset(f, 0x3f, sizeof(f));
+	for(int i = 1 ; i <= n ; i ++) a[i] /= k, checkmax(m, a[i]), f[a[i]] = 0;
+	for(int x = m ; x >= 1 ; x --) for(int i = 1 ; i <= n ; i ++){
+		int y = a[i];
+		checkmin(f[g[x][y]], f[x] + 1);
+	}
+	ans = max(f[1] - 1, 0);
+	for(int i = 1 ; i <= n ; i ++) if(a[i] > 1) ans ++;
+	printf("%d\n", ans);
 }
 
-const int maxv = 100000005;
-std::bitset<maxv> exist;
+int T = 0;
 
-void solve (int now) {
-	exist[0] = true;
-
-	for (int i = last[now]; i; i = es[i].pre) {
-		int t = es[i].v;
-		if (removed[t]) { continue; }
-
-		dis[t] = es[i].w;
-		getDis (t, now);
-
-		for (int j = 1; j <= dpos; j++) {
-			for (auto &q : qs) {
-				if (q.k - disStack[j] >= 0) { q.ans |= exist[q.k - disStack[j]]; }
-			}
-		}
-
-		while (dpos) {
-			int top = disStack[dpos--];
-			exist[top] = true;
-			removeStack[++rpos] = top;
-		}
-	}
-
-	while (rpos) {
-		int top = removeStack[rpos--];
-		exist[top] = false;
-	}
-}
-
-inline void divide (int now) {
-	removed[now] = true;
-	solve (now);
-
-	for (int i = last[now]; i; i = es[i].pre) {
-		int t = es[i].v;
-		if (removed[t]) { continue; }
-
-		sum = siz[t];
-		maxpart[root] = 0x3f3f3f3f;
-		getRoot (t, now);
-		getRoot (root, now); // 实际上在getSiz
-
-		divide (root);
-	}
-}
-
-int main () {
-	fastread
-
-	std::cin >> n >> m;
-	for (int i = 1; i <= n - 1; i++) {
-		int u, v, w; std::cin >> u >> v >> w;
-		addEdge (u, v, w); addEdge (v, u, w);
-	}
-
-	while (m--) {
-		int k; std::cin >> k;
-		qs.push_back ( Query { k, 0 } );
-	}
-
-	sum = n;
-	maxpart[root] = 0x3f3f3f3f;
-	getRoot (1, 0);
-	getRoot (root, 0);
-
-	divide (root);
-
-	for (auto now : qs) { std::cout << (now.ans ? "AYE" : "NAY") << "\n"; }
-
+int main(){
+	for(int x = 0 ; x < N ; x ++) g[x][0] = g[0][x] = g[x][x] = x;
+	for(int x = 1 ; x < N ; x ++) for(int y = 1 ; y < x ; y ++) g[x][y] = g[y][x] = g[y][x % y];
+	scanf("%d", &T);
+	while(T --) solve();
 	return 0;
 }
