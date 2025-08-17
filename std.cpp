@@ -1,43 +1,42 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
+// #pragma GCC optimize(2)
 
-using namespace std;
+using i64 = long long;
+using f64 = double;
 
-const int N = 5000 + 5;
+#define fastread std::ios::sync_with_stdio (false); std::cin.tie(nullptr);
 
-inline void checkmax(int &x, int y){
-	if(y > x) x = y;
+#define rep(QWQ, qwq, qaq) for (i64 QWQ = (qwq); (QWQ) <= (qaq); QWQ++)
+#define per(QWQ, qwq, qaq) for (i64 QWQ = (qwq); (QWQ) >= (qaq); QWQ--)
+
+#define dbg(x) std::cerr << (#x) << " : " << x << "\n";
+#define dbendl std::cerr << "\n"; 
+#define db std::cerr
+
+#define lookMem std::cerr << abs (&MemST - &MemED) / 1024.0 / 1024.0 << "MB defined\n";
+#define lookTime std::cerr << (double) clock() / CLOCKS_PER_SEC << "s used\n";
+int TimeST;
+bool MemST;
+// #define MultiTask lovely_fairytale
+#define file(x) std::freopen(x".in", "r", stdin); std::freopen(x".out", "w", stdout);
+
+void solve() {
 }
 
-inline void checkmin(int &x, int y){
-	if(y < x) x = y;
-}
+bool MemED;
+int main() {
+	fastread
+	// lookMem	
 
-int n = 0, m = 0, k = 0, a[N] = {}, f[N] = {};
-int g[N][N] = {}, ans = 0;
-
-inline void solve(){
-	scanf("%d", &n); m = k = 0;
-	for(int i = 1 ; i <= n ; i ++){
-		scanf("%d", &a[i]);
-		k = g[k][a[i]];
+#ifndef MultiTask
+	int _ = 1;
+#else
+	int _; std::cin >> _;
+#endif
+	
+	while (_--) {
+		solve();
 	}
-	memset(f, 0x3f, sizeof(f));
-	for(int i = 1 ; i <= n ; i ++) a[i] /= k, checkmax(m, a[i]), f[a[i]] = 0;
-	for(int x = m ; x >= 1 ; x --) for(int i = 1 ; i <= n ; i ++){
-		int y = a[i];
-		checkmin(f[g[x][y]], f[x] + 1);
-	}
-	ans = max(f[1] - 1, 0);
-	for(int i = 1 ; i <= n ; i ++) if(a[i] > 1) ans ++;
-	printf("%d\n", ans);
-}
 
-int T = 0;
-
-int main(){
-	for(int x = 0 ; x < N ; x ++) g[x][0] = g[0][x] = g[x][x] = x;
-	for(int x = 1 ; x < N ; x ++) for(int y = 1 ; y < x ; y ++) g[x][y] = g[y][x] = g[y][x % y];
-	scanf("%d", &T);
-	while(T --) solve();
 	return 0;
 }
