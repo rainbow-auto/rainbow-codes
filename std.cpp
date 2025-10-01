@@ -1,42 +1,32 @@
-#include <bits/stdc++.h>
-// #pragma GCC optimize(2)
+#include <algorithm>
+#include <cstdio>
 
-using i64 = long long;
-using f64 = double;
+using PII = std::pair<int, int>;
+double N, m_error;
+int n, m;
+PII ans(0, 1);
+bool flag = false;
 
-#define fastread std::ios::sync_with_stdio (false); std::cin.tie(nullptr);
-
-#define rep(QWQ, qwq, qaq) for (i64 QWQ = (qwq); (QWQ) <= (qaq); QWQ++)
-#define per(QWQ, qwq, qaq) for (i64 QWQ = (qwq); (QWQ) >= (qaq); QWQ--)
-
-#define dbg(x) std::cerr << (#x) << " : " << x << "\n";
-#define dbendl std::cerr << "\n"; 
-#define db std::cerr
-
-#define lookMem std::cerr << abs (&MemST - &MemED) / 1024.0 / 1024.0 << "MB defined\n";
-#define lookTime std::cerr << (double) clock() / CLOCKS_PER_SEC << "s used\n";
-int TimeST;
-bool MemST;
-// #define MultiTask lovely_fairytale
-#define file(x) std::freopen(x".in", "r", stdin); std::freopen(x".out", "w", stdout);
-
-void solve() {
+double fabs(double x) {
+    return x < 0 ? -x : x;
+}
+inline void get(double N, int a = 0, int b = 1, int c = 1, int d = 0) {
+	int x = a + c, y = b + d;
+	if (x > n || y > m) return;
+	double error = (double)x / y - N;
+	if (fabs(error) == m_error) flag = true;
+	if (fabs(error) < m_error) {
+		flag = false; ans = {x, y}; m_error = fabs(error);
+		if (error == 0) return;
+	}
+	if (error < 0) get(N, x, y, c, d);
+	else get(N, a, b, x, y);
 }
 
-bool MemED;
 int main() {
-	fastread
-	// lookMem	
-
-#ifndef MultiTask
-	int _ = 1;
-#else
-	int _; std::cin >> _;
-#endif
-	
-	while (_--) {
-		solve();
-	}
-
+	scanf("%d%d", &n, &m);
+	scanf("%lf", &N); m_error = N; get(N);
+	if (flag) puts("TOO MANY");
+	else printf("%d/%d", ans.first, ans.second);
 	return 0;
 }
