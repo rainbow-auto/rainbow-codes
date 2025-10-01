@@ -1,0 +1,74 @@
+#include <bits/stdc++.h>
+// #pragma GCC optimize(2)
+
+using i64 = long long;
+using f64 = double;
+
+#define fastread std::ios::sync_with_stdio (false); std::cin.tie(nullptr);
+
+#define rep(QWQ, qwq, qaq) for (i64 QWQ = (qwq); (QWQ) <= (qaq); QWQ++)
+#define per(QWQ, qwq, qaq) for (i64 QWQ = (qwq); (QWQ) >= (qaq); QWQ--)
+
+#define dbg(x) std::cerr << (#x) << " : " << x << "\n";
+#define dbendl std::cerr << "\n"; 
+#define db std::cerr
+
+#define lookMem std::cerr << abs (&MemST - &MemED) / 1024.0 / 1024.0 << "MB defined\n";
+#define lookTime std::cerr << (double) clock() / CLOCKS_PER_SEC << "s used\n";
+int TimeST;
+bool MemST;
+#define MultiTask lovely_fairytale
+#define file(x) std::freopen(x".in", "r", stdin); std::freopen(x".out", "w", stdout);
+
+constexpr int maxn = 300005;
+i64 mod;
+
+constexpr int maxm = 5005;
+i64 choose[maxm][maxm];
+
+inline void init() {
+	rep (i, 1, 5000) choose[i][i] = choose[i][0] = 1; 
+	rep (i, 2, 5000) {
+		rep (j, 1, i - 1) {
+			choose[i][j] = (choose[i - 1][j] + choose[i - 1][j - 1]) % mod;
+		}
+	}
+}
+
+int c[maxn];
+
+void solve() {
+	int n; std::cin >> n;
+	rep (i, 1, n) std::cin >> c[i];
+	i64 ans = 1;
+	int len = 0;
+	rep (i, 1, n) len += c[i];
+
+	rep (i, 1, n) {
+		(ans *= choose[len][c[i]]) %= mod;
+		len -= c[i];
+	}
+
+	std::cout << ans << "\n";
+}
+
+bool MemED;
+int main() {
+	fastread
+	// lookMem	
+
+#ifndef MultiTask
+	int _ = 1;
+#else
+	int _; std::cin >> _;
+#endif
+
+	std::cin >> mod;
+	init();
+
+	while (_--) {
+		solve();
+	}
+
+	return 0;
+}
