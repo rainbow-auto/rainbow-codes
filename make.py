@@ -15,7 +15,8 @@ problemTypeIndex = {
     "gym": "CodeforcesGym/",
     "csg": "CSG/",
     "boj": "BOJ/",
-    "codechef": "CodeChef/"
+    "codechef": "CodeChef/",
+    "qoj": "QOJ/"
 }
 
 class ProblemCommitTool:
