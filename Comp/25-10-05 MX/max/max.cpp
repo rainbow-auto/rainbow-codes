@@ -24,7 +24,6 @@ constexpr int maxn = 1000005;
 
 int n, q;
 i64 a[maxn], b[maxn];
-i64 pre_a[maxn], pre_b[maxn];
 
 namespace Task1 {
     inline void solve() {
@@ -32,15 +31,19 @@ namespace Task1 {
             int l1, r1; std::cin >> l1 >> r1;
             int l2, r2; std::cin >> l2 >> r2;
         
-            i64 s1 = pre_a[r1] - pre_a[l1 - 1]; // rep (i, l1, r1) s1 += a[i];
-            i64 s2 = pre_a[r2] - pre_a[l2 - 1]; // rep (i, l2, r2) s2 += b[i];
+            i64 s1 = 0; rep (i, l1, r1) s1 += a[i];
+            i64 s2 = 0; rep (i, l2, r2) s2 += b[i];
         
             i64 res = 0;
-            rep (i, 1, r1 - l1 + 1) res += std::min(s2 - b[l2 + i - 1], a[l1 + i - 1]);
-        
-            res = std::min(res, s2);
-        
-            std::cout << s1 + s2 - res << "\n";
+            // rep (i, 1, r1 - l1 + 1) res += std::min(s2 - b[l2 + i - 1], a[l1 + i - 1]);
+            
+            // res = std::min(res, s2);
+            // res = std::min(res, s1);
+            
+            // std::cout << s1 + s2 - res << "\n";
+
+            rep (i, 1, r1 - l1 + 1) res = std::max(res, b[l2 + i - 1] + a[l1 + i - 1]);
+            std::cout << s1 + s2 - std::min({s1, s2, s1 + s2 - res}) << "\n";
         }
     }
 }
@@ -58,7 +61,7 @@ bool MemED;
 int main() {
 	fastread
 	// lookMem	
-    file("max")
+    // file("max")
 
 #ifndef MultiTask
 	int _ = 1;
