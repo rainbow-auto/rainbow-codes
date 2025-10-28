@@ -1,0 +1,1 @@
+{"name":"Local: mst","url":"/Users/ctlqwq/Documents/OI/Code/Comp/25-10-27 MX/mst/mst.cpp","tests":[{"id":1761549129670,"input":"1\n4\n1 2\n2 3\n3 4","output":"7\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/ctlqwq/Documents/OI/Code/Comp/25-10-27 MX/mst/mst.cpp","group":"local","local":true}
