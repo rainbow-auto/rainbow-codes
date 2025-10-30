@@ -1,0 +1,1 @@
+{"name":"Local: model","url":"/Users/ctlqwq/Documents/OI/Code/Comp/25-10-29 MX/model.cpp","tests":[{"id":1761726965904,"input":"3\n0 1 4\n3\n2 7\n3 3\n1 4","output":"0\n2\n-1\n4"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/ctlqwq/Documents/OI/Code/Comp/25-10-29 MX/model.cpp","group":"local","local":true}
