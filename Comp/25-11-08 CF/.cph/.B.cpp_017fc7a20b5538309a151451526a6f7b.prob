@@ -1,0 +1,1 @@
+{"name":"Local: B","url":"/Users/ctlqwq/Documents/OI/Code/Comp/25-11-08 CF/B.cpp","tests":[{"id":1762562762597,"input":"3\n2 2\nBA\n3 4\n1 1\nB\n20\n6 4\nBAABBA\n2 8 32 95\n","output":"2\n3\n5\n2\n5\n8\n11\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/ctlqwq/Documents/OI/Code/Comp/25-11-08 CF/B.cpp","group":"local","local":true}
