@@ -17,17 +17,19 @@ using f64 = double;
 #define lookTime std::cerr << (double) clock() / CLOCKS_PER_SEC << "s used\n";
 int TimeST;
 bool MemST;
-// #define MultiTask lovely_fairytale
+#define MultiTask lovely_fairytale
 #define file(x) std::freopen(x".in", "r", stdin); std::freopen(x".out", "w", stdout);
 
 constexpr int maxn = 300005;
 
-int n, q;
+int n, k, s, q;
 
 struct Edge {
 	int u, v;
 	int pre;
 } es[maxn << 1];
+
+int last[maxn], cnt;
 
 inline void addEdge(int u, int v) {
 	es[++cnt] = Edge { u, v, last[u] };
@@ -70,28 +72,32 @@ inline void proc(int now) {
 	ccur++;
 	cid[now] = ccur;
 
-	for (auto id : d[now]) msk[i] = true;
+	for (auto id : d[now]) msk[id] = true;
+
 	rep (i, 1, n) {
-		c[ccur] = 0;
+		c[ccur][i] = 0;
 		for (auto id : d[i]) {
-			c[ccur] += msk[id];
+			c[ccur][i] += msk[id];
 		}
 	}
-	for (auto id : d[now]) msk[i] = false;
+
+	for (auto id : d[now]) msk[id] = false;
 }
 
 inline void clr() {
 	rep (i, 1, n) std::vector<int>{}.swap(d[i]);
 	rep (i, 1, n) std::vector<std::pair<int, int>>{}.swap(col[i]);
+	tot = 0;
+
 	cnt = 0;
 	rep (i, 1, n) last[i] = 0;
-	rep (i, 1, s / B) rep (j, 1, n) c[i][j] = 0;
+	rep (i, 1, ccur) rep (j, 1, n) c[i][j] = 0;
 	ccur = 0;
 	rep (i, 1, n) cid[i] = 0;
 }
 
 void solve() {
-	std::cin >> n >> s >> k >> q;
+	std::cin >> n >> k >> s >> q;
 	rep (i, 1, n - 1) {
 		int u, v; std::cin >> u >> v;
 		addEdge(u, v);
@@ -103,17 +109,27 @@ void solve() {
 		col[u].push_back({x, 0});
 	}
 
-	for (auto &[c, id] : col[1]) id = ++tot;
-	dfs(1);
+	// rep (i, 1, n) {
+	// 	dbg(i);
+	// 	for (auto x : col[i]) db << x.first << " "; dbendl;
+	// }
+
+	for (auto &[c, id] : col[1]){
+		id = ++tot;
+		d[1].push_back(id);
+	}
+	dfs(1, 0);
+
+	rep (i, 1, n) if (d[i].size() >= B) proc(i);
 
 	while (q--) {
 		int u, v; std::cin >> u >> v;
 		if (d[u].size() >= B) {
-			std::cout << c[cid[u]][v] << "\n";
+			std::cout << c[cid[u]][v] << " ";
 			continue;
 		}
 		if (d[v].size() >= B) {
-			std::cout << c[cid[u]][v] << "\n";
+			std::cout << c[cid[v]][u] << " ";
 			continue;
 		}
 	
@@ -123,8 +139,10 @@ void solve() {
 		for (auto id : d[v]) res += msk[id];
 		for (auto id : d[u]) msk[id] = false;
 
-		std::cout << res << "\n";
+		std::cout << res << " ";
 	}
+
+	std::cout << "\n";
 
 	clr();
 }
