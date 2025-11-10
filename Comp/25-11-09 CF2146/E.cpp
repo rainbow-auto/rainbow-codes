@@ -90,7 +90,6 @@ void solve() {
 		std::cout << tr.mx() << " ";
  	}
 	std::cout << "\n";
-
 }
 
 bool MemED;
