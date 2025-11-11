@@ -1,0 +1,1 @@
+{"name":"Local: A","url":"/Users/ctlqwq/Documents/OI/Code/Comp/25-11-10 CF/A.cpp","tests":[{"id":1762787735823,"input":"5\n4\n4 2 2 1\n4\n1 1 1 1\n5\n1 5 1 5 1\n3\n1 2 3\n5\n1 3 2 3 5\n","output":"YES\nYES\nYES\nNO\nNO\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/ctlqwq/Documents/OI/Code/Comp/25-11-10 CF/A.cpp","group":"local","local":true}
