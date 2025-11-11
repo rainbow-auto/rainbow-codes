@@ -1,0 +1,1 @@
+{"name":"Local: C","url":"/Users/ctlqwq/Documents/OI/Code/Comp/25-11-11 CF2153/C.cpp","tests":[{"id":1762845491114,"input":"5\n3\n5 5 7\n3\n4 5 7\n3\n5 5 10\n7\n4 3 5 1 5 3 3\n4\n2 3 5 7\n","output":"17\n0\n0\n23\n0\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/ctlqwq/Documents/OI/Code/Comp/25-11-11 CF2153/C.cpp","group":"local","local":true}
