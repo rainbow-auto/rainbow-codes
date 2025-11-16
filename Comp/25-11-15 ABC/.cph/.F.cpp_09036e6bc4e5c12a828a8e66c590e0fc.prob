@@ -1,0 +1,1 @@
+{"name":"Local: F","url":"/Users/ctlqwq/Documents/OI/Code/Comp/25-11-15 ABC/F.cpp","tests":[{"id":1763213758294,"input":"4\n1 7 4 8\n","output":"3\n2 3 1\n2 4 1\n4 1 4\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/ctlqwq/Documents/OI/Code/Comp/25-11-15 ABC/F.cpp","group":"local","local":true}

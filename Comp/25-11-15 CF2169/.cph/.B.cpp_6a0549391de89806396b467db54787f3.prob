@@ -1,0 +1,1 @@
+{"name":"Local: B","url":"/Users/ctlqwq/Documents/OI/Code/Comp/25-11-15 CF2169/B.cpp","tests":[{"id":1763171554656,"input":"4\n*****\n<<<>\n>*<\n*\n","output":"-1\n3\n-1\n1\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/ctlqwq/Documents/OI/Code/Comp/25-11-15 CF2169/B.cpp","group":"local","local":true}
