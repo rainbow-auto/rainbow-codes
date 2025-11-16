@@ -93,7 +93,7 @@ namespace TaskA {
                 (cnt += (n - (*it)) * (p - (*std::prev(it)))) %= mod;
                 pre.insert(p);
             }
-            
+
             (ans += 1ll * cnt * v % mod) %= mod;
         }
         
