@@ -17,13 +17,43 @@ using f64 = double;
 #define lookTime std::cerr << (double) clock() / CLOCKS_PER_SEC << "s used\n";
 int TimeST;
 bool MemST;
-// #define MultiTask lovely_fairytale
+#define MultiTask lovely_fairytale
 #define file(x) std::freopen(x".in", "r", stdin); std::freopen(x".out", "w", stdout);
 
+constexpr int maxn = 200005;
+
 int n;
-int a[5];
+i64 v[maxn];
+int a[maxn], b[maxn];
+
+int pos[maxn];
+
 void solve() {
-	std::cout << a[5] << "\n";
+	std::cin >> n;
+	rep (i, 1, n) std::cin >> v[i];
+
+	rep (i, 1, n) std::cin >> a[i];
+	rep (i, 1, n) std::cin >> b[i];
+
+	rep (i, 1, n) pos[b[i]] = i;
+
+	std::set<std::pair<int, int>> unused;
+
+	i64 ans = 0;
+	rep (i, 1, n) {
+		int x = a[i];
+		while (v[x] >= 0) {
+			unused.erase({pos[x], x});
+			auto it = unused.lower_bound({pos[x], 0});
+			if (it == unused.end()) break;
+			v[it -> second] += v[x];
+			x = it -> second;
+		}
+		if (v[x] >= 0) ans += v[x];
+		else unused.insert({pos[x], x});
+	}
+
+	std::cout << ans << '\n';
 }
 
 bool MemED;

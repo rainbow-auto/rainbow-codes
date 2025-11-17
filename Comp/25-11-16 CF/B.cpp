@@ -17,13 +17,25 @@ using f64 = double;
 #define lookTime std::cerr << (double) clock() / CLOCKS_PER_SEC << "s used\n";
 int TimeST;
 bool MemST;
-// #define MultiTask lovely_fairytale
+#define MultiTask lovely_fairytale
 #define file(x) std::freopen(x".in", "r", stdin); std::freopen(x".out", "w", stdout);
 
 int n;
-int a[5];
+int a, b;
+
 void solve() {
-	std::cout << a[5] << "\n";
+	std::cin >> a >> b >> n;
+
+	// b <= a / n
+	if (1ll * b * n <= a) {
+		std::cout << "1\n";
+	} else {
+		if (a > b) {
+			std::cout << "2\n";
+		} else {
+			std::cout << "1\n";
+		}
+	}
 }
 
 bool MemED;
