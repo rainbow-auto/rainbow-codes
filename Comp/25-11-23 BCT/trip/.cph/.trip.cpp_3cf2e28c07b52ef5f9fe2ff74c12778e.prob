@@ -1,0 +1,1 @@
+{"name":"Local: trip","url":"/Users/ctlqwq/Documents/OI/Code/Comp/25-11-23 BCT/trip/trip.cpp","tests":[{"id":1763864852628,"input":"5 4 10\n0 8 20 25 30\n5 11 13 6 3\n5 1\n5 2\n5 3\n5 4\n","output":"6\n7\n1\n1\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/ctlqwq/Documents/OI/Code/Comp/25-11-23 BCT/trip/trip.cpp","group":"local","local":true}
