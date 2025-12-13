@@ -13,6 +13,8 @@ using i64 = long long;
 
 constexpr int maxn = 1005;
 
+int n, m;
+
 std::vector<int> g[maxn];
 std::vector<int> ug[maxn];
 
@@ -20,28 +22,85 @@ namespace Sol {
     std::bitset<maxn> vis;
     std::vector<std::pair<int, int>> ans;
 
-    int status[maxn];
-    void dfs(int now) {
-
+    std::vector<int> p;
+    int col[maxn];
+    bool dfs(int now, int st) {
+        col[now] = 1;
+        for (auto t : g[now]) {
+            if (t == st) continue;
+            if (not col[t]) {
+                if (not dfs(t, st)) return false;
+            } else if (col[t] == 1) {
+                return false;
+            }
+        }
+        col[now] = 2;
+        p.push_back(now);
+        return true;
     }
 
-    void getans(int now) {
+    std::vector<int> vec;
+    void getvec(int now) {
+        if (vis[now]) return;
+        vis[now] = true;
+        for (auto t : ug[now]) {
+            getvec(t);
+        }
+        vec.push_back(now);
+    }
 
+    inline bool chk(int st) {
+        std::exchange(p, {});
+        for (auto x : vec) col[x] = 0;
+
+        for (auto t : vec) {
+            if (t == st) continue;
+            if (col[t]) continue;
+            if (not dfs(t, st)) return false;
+        }
+
+        return true;
     }
 
     inline void solve() {
         rep (i, 1, n) {
             if (vis[i]) continue;
+            std::exchange(vec, {});
+            getvec(i);
+
+            // for (auto x : vec) db << x << " "; dbendl;
+
+            if (chk(-1)) {
+                rep (k, 1, (int) p.size() - 1) {
+                    ans.push_back({p[k - 1], p[k]});
+                }
+            } else {
+                bool flg = false;
+                for (auto ex : vec) {
+                    if (chk(ex)) {
+                        p.push_back(ex);
+                        ans.push_back({p.back(), p.front()});
+                        rep (k, 1, (int) p.size() - 1) ans.push_back({p[k - 1], p[k]});
+                        flg = true;
+                        break;
+                    }
+                }
+                if (not flg) return std::cout << "-1\n", void(0);
+            }
         }   
 
+        std::cout << ans.size() << "\n";
+        for (auto [u, v] : ans) {
+            std::cout << u << " " << v << "\n";
+        }
     }
 }
 
 inline void solve() {
     std::cin >> n >> m;
-    rep (i, 1, n) {
+    rep (i, 1, m) {
         int u, v; std::cin >> u >> v;
-        g[u].push_back(v);
+        g[v].push_back(u);
 
         ug[u].push_back(v);
         ug[v].push_back(u);
