@@ -26,7 +26,12 @@ bool MemST;
   std::freopen(x ".out", "w", stdout);
 
 void solve() {
-  
+  int n;
+  std::cin >> n;
+  std::string s;
+  std::cin >> s;
+  dbg(n - s.size());
+  std::cout << std::string(n - s.size(), 'o') + s << "\n";
 }
 
 bool MemED;

@@ -20,6 +20,8 @@ bool MemST;
 // #define MultiTask lovely_fairytale
 #define file(x) std::freopen(x".in", "r", stdin); std::freopen(x".out", "w", stdout);
 
+using u64 = unsigned long long;
+
 constexpr int maxn = 100005;
 
 int n;

@@ -1,0 +1,13 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/ctlqwq/Documents/OI/Code/model'
+relocations:
+  - { offset: 0x1603A, size: 0x8, addend: 0x0, symName: __ZStL8__ioinit, symObjAddr: 0x61370, symBinAddr: 0x100008000, symSize: 0x0 }
+  - { offset: 0x1612F, size: 0x8, addend: 0x0, symName: _TimeST, symObjAddr: 0x61374, symBinAddr: 0x100008004, symSize: 0x0 }
+  - { offset: 0x16145, size: 0x8, addend: 0x0, symName: _MemST, symObjAddr: 0x61378, symBinAddr: 0x100008008, symSize: 0x0 }
+  - { offset: 0x1615B, size: 0x8, addend: 0x0, symName: _MemED, symObjAddr: 0x61379, symBinAddr: 0x100008009, symSize: 0x0 }
+  - { offset: 0x1628F, size: 0x8, addend: 0x0, symName: __GLOBAL__sub_I_model.cpp, symObjAddr: 0xA8, symBinAddr: 0x100000748, symSize: 0x14 }
+  - { offset: 0x162A6, size: 0x8, addend: 0x0, symName: __Z41__static_initialization_and_destruction_0v, symObjAddr: 0x6C, symBinAddr: 0x10000070C, symSize: 0x3C }
+  - { offset: 0x162C4, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x8, symBinAddr: 0x1000006A8, symSize: 0x64 }
+  - { offset: 0x162F2, size: 0x8, addend: 0x0, symName: __Z5solvev, symObjAddr: 0x0, symBinAddr: 0x1000006A0, symSize: 0x8 }
+...

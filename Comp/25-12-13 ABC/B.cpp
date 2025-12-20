@@ -26,7 +26,22 @@ bool MemST;
   std::freopen(x ".out", "w", stdout);
 
 void solve() {
-  
+  int n; std::cin >> n;
+  std::vector<std::vector<int>> a(n, std::vector<int>(n));
+
+  int r = 0, c = (n - 1) / 2;
+  a[r][c] = 1;
+  rep (k, 2, (n * n)) {
+    if (not a[((r - 1) % n + n) % n][((c + 1) % n + n) % n]) {
+      (((r -= 1) %= n) += n) %= n;
+      (((c += 1) %= n) += n) %= n;
+    } else {
+      (((r += 1) %= n) += n) %= n;
+    }
+    a[r][c] = k;
+  }
+
+  rep (i, 0, n - 1) rep (j, 0, n - 1) std::cout << a[i][j] << " \n"[j == n - 1];
 }
 
 bool MemED;

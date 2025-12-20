@@ -26,7 +26,28 @@ bool MemST;
   std::freopen(x ".out", "w", stdout);
 
 void solve() {
-  
+  int n, m;
+  std::cin >> n >> m;
+  std::set<std::pair<int, int>> s;
+
+  int ans = 0;
+  while (m--) {
+    int r, c;
+    std::cin >> r >> c;
+
+    if (s.count({r, c}) or s.count({r + 1, c}) or s.count({r, c + 1}) or
+        s.count({r + 1, c + 1})) {
+      continue;
+    } else {
+      s.insert({r, c});
+      s.insert({r + 1, c});
+      s.insert({r, c + 1});
+      s.insert({r + 1, c + 1});
+      ans++;
+    }
+  }
+
+  std::cout << ans << "\n";
 }
 
 bool MemED;
